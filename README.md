@@ -21,7 +21,7 @@ cd $HOME
 mkdir -p gocode/{src,bin,pkg}
 ```
 
-Add the following to the end of your `.profile`
+Add the following to the end of your `.bashrc`
 ``` Bash
 export GOROOT=$HOME/go
 export GOBIN=$GOROOT/bin
@@ -32,7 +32,7 @@ export PATH=$PATH:$GOBIN:$GO_BIN:
 
 Now reload the changes:
 ```
-source .profile
+source ~/.bashrc
 ```
 
 
@@ -43,19 +43,11 @@ go get -u github.com/revel/cmd/revel
 
 ### Grunt:
 
-Add the following to the end of your `.profile`
-``` Bash
-alias node='nodejs '  # note the trailing space is intentional
-```
-Now reload the changes:
-```
-source .profile
-```
-
 Run the following commands
 ``` Bash
 cd $HOME
 sudo apt-get install nodejs npm ruby
+sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo gem install sass
 sudo npm install -g grunt-cli
 sudo npm install -g grunt-contrib-jshint grunt-contrib-concat grunt-contrib-uglify grunt-contrib-coffee grunt-markdown grunt-contrib-sass grunt-contrib-less highlight.js
@@ -101,7 +93,7 @@ Create the sample database
 createdb sample_dev_db
 ```
 
-Add the following to the end of your `.profile`
+Add the following to the end of your `.bashrc`
 ``` Bash
 export DB_DEV_USER='<username>'
 export DB_DEV_PASS='<password>'
@@ -112,16 +104,22 @@ export DB_PROD_NAME='sample_dev_db'
 
 # these example values are for using Gmail to send emails
 export MAIL_SERVER='smtp.google.com'
-export MAIL_SENDER='username@gmail.com'
-export MAIL_PASSWD='app_password'
+export MAIL_SENDER='<gmail_username>@gmail.com'
+export MAIL_PASSWD='<app_password>'
 ```
 
-To setup an `app_password` for your google account:
+Now reload the changes:
+```
+source ~/.bashrc
+```
+
+
+To setup an `<app_password>` for your google account:
 
 1. Go to [your account security settings](https://www.google.com/settings/security)
 2. Click on App password `Settings` link
 3. Enter a name for the computer and then generate a password
-4. Copy the resulting password code into the `MAIL_PASSWD` value `app_password`
+4. Copy the resulting password code into the `MAIL_PASSWD` value `<app_password>`
 
 note, you will have repeat this process for each computer on which you intend to setup revel-modz mail
 
@@ -134,6 +132,7 @@ The following instructions will setup a new app from the revel-modz skeleton
 ### Create the new app
 
 ``` Bash
+cd $GOPATH/src
 revel new <APP_NAME> github.com/iassic/revel-modz/skeleton
 cd <APP_NAME>
 bash init.sh  (hit ctrl-c when prompted) [you will see a bunch of errors initially]
@@ -149,7 +148,7 @@ createdb <APP_NAME>_prod_db
 
 ### Setup the environment variables
 
-Add the following to the end of your `.profile`
+Add the following to the end of your `.bashrc`
 (you may change the export names if you also change them in app.conf)
 [You can have several apps and DBs by altering the environment variables and respective app.conf's]
 ``` Bash

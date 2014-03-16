@@ -1,11 +1,18 @@
 package controllers
 
 import (
+	"os"
 	// "github.com/iassic/revel-modz/modules/user"
 	"github.com/revel/revel"
 )
 
 func (c User) Account() revel.Result {
+
+	publick := os.Getenv("STRIPE_TEST_PUB")
+	privatek := os.Getenv("STRIPE_API_KEY")
+    revel.WARN.Println(publick)
+    revel.WARN.Println(privatek)
+
 	// u := c.userConnected()
 
 	// // get stuff from DB
@@ -18,5 +25,5 @@ func (c User) Account() revel.Result {
 
 	// c.RenderArgs["userregister"] = userregister
 
-	return c.Render()
+	return c.Render(publick)
 }

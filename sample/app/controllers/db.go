@@ -8,6 +8,7 @@ import (
 	"github.com/iassic/revel-modz/modules/analytics"
 	"github.com/iassic/revel-modz/modules/auth"
 	"github.com/iassic/revel-modz/modules/maillist"
+	"github.com/iassic/revel-modz/modules/stripe"
 	"github.com/iassic/revel-modz/modules/user"
 	"github.com/iassic/revel-modz/modules/user-files"
 )
@@ -86,10 +87,11 @@ func SetupDevDB() {
 	dropTables()
 	addTables()
 
+	stripe.TestTables(TestDB)
 	fillUserTables()
-	fillMailTables()
+	// fillMailTables()
 
-	testUserDB()
+	// testUserDB()
 }
 
 func dropTables() {
@@ -98,6 +100,7 @@ func dropTables() {
 	auth.DropTables(TestDB)
 	user.DropTables(TestDB)
 	maillist.DropTables(TestDB)
+	stripe.DropTables(TestDB)
 	// userfiles.DropTables(TestDB)
 }
 
@@ -108,6 +111,7 @@ func addTables() {
 	user.AddTables(TestDB)
 	maillist.AddTables(TestDB)
 	userfiles.AddTables(TestDB)
+	stripe.AddTables(TestDB)
 }
 
 type DbFillUser struct {
