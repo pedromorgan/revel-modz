@@ -15,7 +15,7 @@ type ForumTopic struct {
 	UpdatedAt time.Time
 	DeletedAt time.Time
 
-	TopicId   int64
+	TopicId   int64 `sql:"not null;unique"`
 	TopicName string
 	TopicTags []string
 }
@@ -32,8 +32,16 @@ type ForumMessage struct {
 	MessageId int64
 
 	// message details
-	AuthorId    int64 // UserId
+	AuthorId    string // UserId
 	MessageBody string
+}
+
+func addNewForumTopic(db *gorm.DB, author, topic, body string, tags []string) error {
+	ft := &ForumTopic{
+		TopicName: topic,
+	}
+
+	return nil
 }
 
 func AddTables(db *gorm.DB) error {
@@ -63,7 +71,8 @@ func DropTables(db *gorm.DB) error {
 }
 
 func FillTables(db *gorm.DB) error {
-	return errors.New("TODO")
+
+	return nil
 }
 func TestTables(db *gorm.DB) error {
 	return errors.New("TODO")
