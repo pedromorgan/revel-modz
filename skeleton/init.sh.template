@@ -7,6 +7,8 @@ jsfiles=(
 	comm
 	files 
 	markdown_editor
+	maillist
+	analytics
 )
 
 sassfiles=(
@@ -41,5 +43,7 @@ if [ -d "app/assets/js/sample" ]; then
 		cp app/assets/sass/sample/_sample_${file}.scss app/assets/sass/${appname}/_${appname}_${file}.scss
 	done
 fi
+
+grunt
 
 # TODO  setting up the environment variables for the updated app.conf

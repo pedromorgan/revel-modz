@@ -9,25 +9,34 @@ import (
 )
 
 type GruntCompiler struct {
-	Name  string
-	Path  string
-	Grunt string
-	First bool
+	Name       string
+	Path       string
+	Grunt      string
+	notOnStart bool
 }
 
 func NewCompiler(name, path, grunt_rule string) *GruntCompiler {
 	return &GruntCompiler{
-		Name:  name,
-		Path:  path,
-		Grunt: grunt_rule,
-		First: true,
+		Name:       name,
+		Path:       path,
+		Grunt:      grunt_rule,
+		notOnStart: true,
+	}
+}
+
+func NewCompilerOnStart(name, path, grunt_rule string) *GruntCompiler {
+	return &GruntCompiler{
+		Name:       name,
+		Path:       path,
+		Grunt:      grunt_rule,
+		notOnStart: false,
 	}
 }
 
 func (c *GruntCompiler) Refresh() *revel.Error {
 	// It's start-up or a file changed.  Re-compile...
-	if c.First {
-		c.First = false
+	if c.notOnStart {
+		c.notOnStart = false
 		return nil
 	}
 

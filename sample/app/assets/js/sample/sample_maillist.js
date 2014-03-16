@@ -74,31 +74,33 @@ function dosend_maillist_filter_update(group, id, csrf) {
 
 function update_maillist_results_table(results) {
     // clear the current table results
+    $("#maillist-listview-results").empty();
 
     // render results in panel
-    var template = Hogan.compile(row_template_text, {
-        delimiters: '<% %>'
-    });
-    for (var i = 0; i < results.length; i++) {
-        var output = template.render(results[i]);
-        $("#maillist-listview-results").append(output)
+    if (results === null) {
+        return
     }
+
+    var template = Hogan.compile(maillist_row_template_text, { delimiters: '<% %>' });
+    if (results instanceof Array) {
+        for (var i = 0; i < results.length; i++) {
+            var output = template.render(results[i]);
+            $("#maillist-listview-results").append(output)
+        }
+    } else {  // should be a single element
+            var output = template.render(results);
+            $("#maillist-listview-results").append(output)
+    }
+
+
 }
 
-var row_template_text = [
+var maillist_row_template_text = [
 '    <div class="row">',
-'                <div class="large-2 small-2 columns">',
-'                    <$UserId>',
-'                </div>',
-'                <div class="large-2 small-2 columns">',
-'                    <$Email>',
-'                </div>',
-'                <div class="large-2 small-2 columns">',
-'                    <$List>',
-'                </div>',
-'                <div class="large-2 small-2 columns">',
-'                    <$Activated>',
-'                </div>',
+'                <div class="large-2 small-2 columns"> <%UserId%>     </div>',
+'                <div class="large-2 small-2 columns"> <%Email%>      </div>',
+'                <div class="large-2 small-2 columns"> <%List%>       </div>',
+'                <div class="large-2 small-2 columns"> <%Activated%>  </div>',
 '                <div class="large-4 small-4 columns">',
 '                    <ul class="button-group">',
 '                        <li><a href="#" class="small button success">View</a>',
