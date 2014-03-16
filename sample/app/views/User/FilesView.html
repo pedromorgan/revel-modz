@@ -1,7 +1,7 @@
 {{set . "title" "Files"}}
 
-{{append . "moreScripts" "/public/js/ws_comm/ws_comm.js"}} 
-{{appendjs . "moreHead" "initComm();"}} 
+{{append . "moreScripts" "/public/js/ws_comm/ws_comm.js"}}
+{{appendjs . "moreHead" "initComm();"}}
 
 {{append . "moreStyles" "/ipa/css/jquery-ui.min.css"}}
 {{append . "moreStyles" "/ipa/css/skin/ui.dynatree.css"}}
@@ -41,28 +41,21 @@
         <div class="iPanel" id="file-panel">
             <b> File Panel </b>
             <div class="row">
-                <div class="large-12 large-centered small-12 small-centered columns">
-                    <div id="user-fileview" class="panel">
-
-                        <div class="row">
-                            <div class="large-2 small-2 columns">
-                                Icon
-                            </div>
-                            <div class="large-4 small-4 columns">
-                                File Name
-                            </div>
-                            <div class="large-2 small-2 columns">
-                                Owner
-                            </div>
-                            
-
-                            <div class="large-4 small-4 columns">
-                            </div>
-                        </div>
-
-                        
-                    </div>
+                <div class="large-1 small-2 columns">
+                    Icon
                 </div>
+                <div class="large-4 small-4 columns">
+                    File Name
+                </div>
+                <div class="large-2 small-2 columns">
+                    Owner
+                </div>
+                <div class="large-5 small-4 columns">
+                    Operations
+                </div>
+            </div>
+
+            <div id="fileview-results">
             </div>
 
         </div>

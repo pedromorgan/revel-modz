@@ -17,10 +17,19 @@ var websock_comm = (function($) {
         delete _handlers[tag];
     }
 
-    WS_COMM.Connect = function(host, url) {
-        _host = host;
-        _url = url
-        _socket = new WebSocket('ws://' + host + '/comm');
+    WS_COMM.Connect = function(host, url, secure) {
+        if (host == undefined || host == null || host == "") {
+            host = _host;
+        }
+        if (url == undefined || url == null || url == "") {
+            url = _url;
+        }
+
+        if (secure === true) {
+            _socket = new WebSocket('wss://' + host + url);
+        } else {
+            _socket = new WebSocket('ws://' + host + url);
+        }
 
         _socket.onopen = function() {
             console.log("Connection established");
@@ -64,6 +73,7 @@ var websock_comm = (function($) {
             handle(body)
         } else {
             console.log('Error: message type \"' + tag + '\" unknown');
+            console.log("msg: ", msg)
         }
     }
 

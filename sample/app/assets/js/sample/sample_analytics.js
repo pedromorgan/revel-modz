@@ -77,7 +77,7 @@ function update_results_table(results) {
     // clear the current table results
 
     // render results in panel
-    var template = Hogan.compile(row_template_text, {
+    var template = Hogan.compile(analytics_row_template_text, {
         delimiters: '<% %>'
     });
     for (var i = 0; i < results.length; i++) {
@@ -86,7 +86,7 @@ function update_results_table(results) {
     }
 }
 
-var row_template_text = [
+var analytics_row_template_text = [
     '<div class="row">',
     '     <div class="large-12 columns">',
     '         <div class="row">',

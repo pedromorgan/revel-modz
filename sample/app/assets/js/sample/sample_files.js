@@ -327,71 +327,40 @@ function getStoredFileContents(node) {
 }
 
 function renderFileRightPanel(fileNodes) {
-    var file_list_header = '<div class="row">
-                <div class="large-12 large-centered small-12 small-centered columns">
-                    <div id="user-fileview" class="panel">
-
-                        <div class="row">
-                            <div class="large-1 small-2 columns">
-                                Folder
-                            </div>
-                            <div class="large-3 small-2 columns">
-                                File Name
-                            </div>
-                            <div class="large-2 small-2 columns">
-                                Owner
-                            </div>
-                            
-
-                            <div class="large-6 small-6 columns">
-                            </div>
-                        </div>
-
-                        
-                    </div>
-                </div>
-            </div>';
-
 
     // clear any existing files in the DOM list
-    $("#file-panel").empty();
-    // add header
-    $("#file-panel").append(file_list_header);
-    //console.log(fileNodes.length)
+    $("#fileview-results").empty();
 
-    var template = Hogan.compile(file_row_template_text, {
-        delimiters: '<% %>'
-    });
-    for (var i = 0; i < fileNodes.length; i++) {
-        var output = template.render(fileNodes[i]);
-        $("#file-panel").append(output)
+    // return if no fileNodes
+    if (fileNodes === null) {
+        return
     }
+
+    // render the file Nodes
+    var template = Hogan.compile(file_row_template_text, { delimiters: '<% %>' });
+    if (fileNodes instanceof Array) {
+        for (var i = 0; i < fileNodes.length; i++) {
+            var output = template.render(fileNodes[i]);
+            $("#fileview-results").append(output)
+        }
+    } else {  // should be a single element
+            var output = template.render(fileNodes);
+            $("#fileview-results").append(output)
+    }
+
 }
 
 var file_row_template_text = [
-    '<div class="row">',
-    '     <div class="large-12 columns">',
     '         <div class="row">',
-    '             <div class="small-2 columns">',
-    '                 <%data.isFolder%>',
-    '             </div>',
-    '             <div class="small-4 columns">',
-    '                 <%data.title%>',
-    '             </div>',
-    '             <div class="small-2 columns">',
-    '                 <%data.parent.data.key%>',
-    '             </div>',
-    '             <div class="small-4 columns">',
-    '                 <ul class="button-group">',
-    '        <li><a href="#" class="small button success">View</a>',
-    '        </li>',
-    '        <li><a href="#" class="small button warning">Edit</a>',
-    '        </li>',
-    '        <li><a href="#" class="small button alert">Delete</a>',
-    '            </li>',
-    '   </ul>,',
+    '             <div class="small-1 columns"> <%data.isFolder%>         </div>',
+    '             <div class="small-4 columns"> <%data.title%>            </div>',
+    '             <div class="small-2 columns"> <%data.parent.data.key%>  </div>',
+    '             <div class="small-5 columns">',
+    '               <ul class="button-group">',
+    '                  <li><a href="#" class="tiny button success">View</a></li>',
+    '                  <li><a href="#" class="tiny button warning">Edit</a></li>',
+    '                  <li><a href="#" class="tiny button alert">Delete</a></li>',
+    '               </ul>,',
     '             </div>',
     '         </div>',
-    '     </div>',
-    ' </div>',
 ].join("\n");

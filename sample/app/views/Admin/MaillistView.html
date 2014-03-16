@@ -1,10 +1,10 @@
-{{set . "title" "Admin ListView"}} 
+{{set . "title" "Admin ListView"}}
 
 {{append . "moreScripts" "/ipa/js/hogan-2.0.0.js"}}
 
 {{appendjs . "moreHead" "initMaillistView();"}}
 
-{{template "templates/header.html" .}} 
+{{template "templates/header.html" .}}
 {{template "templates/menu.html" .}}
 
 <div class="row">
@@ -12,16 +12,17 @@
         <div class="small-4 columns">
             <label>Select Box
                 <select id="maillist-listview-field-list">
-                    <option value="beta">Beta</option>
+                    <option value="all">All</option>
                     <option value="weekly">Weekly</option>
                     <option value="longer">Longer</option>
                     <option value="promo">Promo</option>
+                    <option value="beta">Beta</option>
                 </select>
             </label>
 
         </div>
         <div class="small-4 columns">
-            <input type="text" id="maillist-listview-field-email" value="user@domain.com" />
+            <input type="text" id="maillist-listview-field-email" placeholder="demo1@domain.com" />
         </div>
 
         <div class="small-4 columns">
@@ -37,7 +38,7 @@
 
 <div class="row">
     <div class="large-12 large-centered small-12 small-centered columns">
-        <div id="maillist-listview-results" class="panel">
+        <div id="maillist-listview-panel" class="panel">
 
             <div class="row">
                 <div class="large-2 small-2 columns">
@@ -55,15 +56,17 @@
 
                 <div class="large-4 small-4 columns">
                     <ul class="button-group">
-                        <li><a href="#" class="small button success">View</a>
+                        <!-- <li><a href="#" class="small button success">View</a>
                         </li>
                         <li><a href="#" class="small button warning">Edit</a>
                         </li>
                         <li><a href="#" class="small button alert">Delete</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
 
+            </div>
+            <div id="maillist-listview-results">
             </div>
         </div>
     </div>
