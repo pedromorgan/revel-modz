@@ -1,12 +1,53 @@
 {{set . "title" "Forums"}}
 
+{{append . "moreScripts" "/ipa/js/hogan-2.0.0.js"}}
+
+{{appendjs . "moreHead" "initForumView();"}}
+
 {{template "templates/header.html" .}}
 {{template "templates/menu.html" .}}
 
 <div class="row">
-    <div class="large-6 large-centered columns">
+    <div class="large-12 large-centered small-12 small-centered columns">
+        <div class="small-4 columns">
+        	<a class="button" id="forums-filter-button">New Topic</a>
+        </div>
+
+        <div class="small-4 columns">
+            <input type="text" id="forums-filter-topicid" placeholder="1" />
+        </div>
+
+        <div class="small-4 columns">
+            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+            <a class="button" id="forums-filter-button">Update</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 large-centered columns">
         <div class="panel">
             <h5>Forums</h5>
+
+                <div class="row">
+                	<div class="large-3 small-3 columns">
+                    	TopicId
+                	</div>
+                	<div class="large-3 small-3 columns">
+                    	TopicName
+                	</div>
+                	<div class="large-3 small-3 columns">
+                    	AuthorId
+                	</div>
+                	<div class="large-3 small-3 columns">
+                    	CreatedAt
+                	</div>
+            	</div>
+
+            	<div id="forums-topiclist-results">
+            	</div>
+
         </div>
     </div>
 </div>
