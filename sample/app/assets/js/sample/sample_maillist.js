@@ -70,8 +70,6 @@ function dosend_maillist_filter_update(group, id, csrf) {
     xhr.send(null);
 }
 
-
-
 function update_maillist_results_table(results) {
     // clear the current table results
     $("#maillist-listview-results").empty();
@@ -117,12 +115,59 @@ var maillist_row_template_text = [
 
 function initMaillistCompose() {
     // button handler
+    $("#maillist-compose-button").on("click",  handleMaillistComposeSaveDraft);
+   
 }
 
 function handleMaillistComposeSaveDraft(event) {
     console.log("Saving Draft");
+
+    var textContent = editor.exportFile();
+    console.log(textContent);
+    var htmlContent = editor.exportFile(null,"html");
+    console.log(htmlContent);
+
+    var csrf = $("#csrf_token").val();
+    dosend_maillist_save_draft("fakename", textContent, htmlContent, csrf);
+
+   // var group = $("#maillist-listview-field-list").val();
+   //  var id = $("#maillist-listview-field-email").val();
+   //  var csrf = $("#csrf_token").val();
+
+   //  console.log("group", group);
+   //  console.log("id", id);
 }
 
+function dosend_maillist_save_draft(name, textbody, htmlbody, csrf) {
+    var post_query = "/a/maillist/savedraft";
+    post_query += "?name=" + encodeURIComponent(name);
+    post_query += "&textbody=" + encodeURIComponent(textbody);
+    post_query += "&htmlbody=" + encodeURIComponent(htmlbody);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", post_query, true);
+    xhr.setRequestHeader('X-CSRF-Token', csrf);
+
+
+    xhr.onload = function(e) {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                // var results = JSON.parse(xhr.responseText);
+                console.log(xhr.responseText);
+                
+            } else {
+                console.error(xhr.statusText);
+            }
+        }
+    };
+
+
+
+    xhr.onerror = function(e) {
+        console.error(xhr.statusText);
+    };
+    xhr.send(null);
+}
 
 
 

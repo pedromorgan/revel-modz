@@ -27,7 +27,7 @@ GET     /u/files 								User.FilesView
 GET     /a/                                     Admin.Index
 GET     /a/maillist                             Admin.MaillistView
 GET     /a/maillistcompose               		Admin.MaillistCompose
-POST    /a/maillistcompose               		Admin.MaillistComposePost
+POST    /a/maillist/savedraft               	Admin.MaillistSaveDraftPost
 POST    /a/maillist/filter                     	Admin.MaillistFilter
 
 

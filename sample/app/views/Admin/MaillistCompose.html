@@ -1,8 +1,9 @@
 {{set . "title" "Admin Compose"}}
 
-{{append . "moreStyles" "/ipa/js/epiceditor.min.js"}}
+<!-- {{append . "moreStyles" "/ipa/js/epiceditor.min.js"}} -->
 {{append . "moreScripts" "/ipa/js/epiceditor.min.js"}}
 {{appendjs . "moreHead" "initEpicEditor();"}}
+{{appendjs . "moreHead" "initMaillistCompose();"}}
 
 {{template "templates/header.html" .}}
 {{template "templates/menu.html" .}}
@@ -12,6 +13,7 @@
         <div class="panel">
             
         	<a id="maillist-compose-button" class="button">Save Draft</a>
+            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
 
         </div>
     </div>

@@ -87,8 +87,11 @@ func (c Admin) MaillistCompose() revel.Result {
 	return c.Render()
 }
 
-func (c Admin) MaillistComposePost() revel.Result {
-	return nil
+func (c Admin) MaillistSaveDraftPost(name, textbody, htmlbody string) revel.Result {
+	revel.INFO.Println(name)
+	revel.INFO.Println(textbody)
+	revel.INFO.Println(htmlbody)
+	return c.RenderText("saved draft")
 }
 
 // helper functions
