@@ -11,9 +11,31 @@
 <div class="row">
     <div class="large-12 large-centered small-12 columns">
         <div class="panel">
-            
-        	<a id="maillist-compose-button" class="button">Save Draft</a>
-            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+
+            <div class="row">
+                <div class="small-4 columns">
+                <label>Select Box</label>
+                    <select id="maillist-compose-field-list">
+                        <option value="all">All</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="longer">Longer</option>
+                        <option value="promo">Promo</option>
+                        <option value="beta">Beta</option>
+                    </select>
+                </div>
+
+                <div class="small-4 columns">
+                <label>Subject</label>
+                    <input type="text" id="maillist-compose-field-subject" placeholder="subject" />
+                </div>
+
+                <div class="small-4 columns">
+                	<a id="maillist-compose-button" class="button">Save Draft</a>
+                    <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+
+                </div>
+            </div>
+
 
         </div>
     </div>

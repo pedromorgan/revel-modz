@@ -87,10 +87,20 @@ func (c Admin) MaillistCompose() revel.Result {
 	return c.Render()
 }
 
-func (c Admin) MaillistSaveDraftPost(name, textbody, htmlbody string) revel.Result {
-	revel.INFO.Println(name)
+func (c Admin) MaillistComposePost() revel.Result {
+	return c.Render()
+}
+
+func (c Admin) MaillistSaveDraftPost(list, subject, textbody, htmlbody string) revel.Result {
+	u := c.userConnected()
+	author := u.UserName
+	revel.INFO.Println(author)
+	revel.INFO.Println(list)
+	revel.INFO.Println(subject)
 	revel.INFO.Println(textbody)
 	revel.INFO.Println(htmlbody)
+	maillist.SaveDraft(c.Txn, author, list, subject, textbody, htmlbody)
+
 	return c.RenderText("saved draft")
 }
 

@@ -122,13 +122,16 @@ function initMaillistCompose() {
 function handleMaillistComposeSaveDraft(event) {
     console.log("Saving Draft");
 
+    var list = $("#maillist-compose-field-list").val();
+    var subject = $("#maillist-compose-field-subject").val();
+
     var textContent = editor.exportFile();
     console.log(textContent);
     var htmlContent = editor.exportFile(null,"html");
     console.log(htmlContent);
 
     var csrf = $("#csrf_token").val();
-    dosend_maillist_save_draft("fakename", textContent, htmlContent, csrf);
+    dosend_maillist_save_draft(list, subject, textContent, htmlContent, csrf);
 
    // var group = $("#maillist-listview-field-list").val();
    //  var id = $("#maillist-listview-field-email").val();
@@ -138,9 +141,10 @@ function handleMaillistComposeSaveDraft(event) {
    //  console.log("id", id);
 }
 
-function dosend_maillist_save_draft(name, textbody, htmlbody, csrf) {
+function dosend_maillist_save_draft(list, subject, textbody, htmlbody, csrf) {
     var post_query = "/a/maillist/savedraft";
-    post_query += "?name=" + encodeURIComponent(name);
+    post_query += "?list=" + encodeURIComponent(list);
+    post_query += "&subject=" + encodeURIComponent(subject);
     post_query += "&textbody=" + encodeURIComponent(textbody);
     post_query += "&htmlbody=" + encodeURIComponent(htmlbody);
 
