@@ -70,9 +70,10 @@ function init_dynatree() {
                 console.log(childNodes);
 
                 //console.log(childNodes);
-                //console.log("node: ",node);
+                console.log("node: ",node);
                 console.log("Path of selected node: ",node.data.key);
-                fileview.curr_tree_selection = node.data.key;
+                fileview.curr_tree_selection = node.tree
+                fileview.curr_path = node.data.key;
 
                 /*var selectedKeys = $.map(childNodes, function(node){
                 return node.data.key;
@@ -108,7 +109,7 @@ function init_dynatree() {
 
 
     getStoredFiles();
-    fileview_current_base_dir = $("#tree").dynatree("getRoot");
+    fileview.current_base_dir = $("#tree").dynatree("getRoot");
     $("#tree").dynatree("getRoot").sortChildren(file_cmp, true);
 }
 
@@ -194,8 +195,9 @@ function addDataFile(files) {
         console.log('ERROR: Line ', e.lineno, ' in ', e.filename, ': ', e.message);
     }
 
-    var tree = $("#tree").dynatree("getTree");
-    //var tree = fileview_current_base_dir;
+    //var tree = $("#tree").dynatree("getTree");
+    var tree = fileview.curr_tree_selection;
+    console.log("current tree selection: ", tree);
 
     var cnt = 0;
     //console.log("webkitRelativePath: ",files);
@@ -211,10 +213,12 @@ function addDataFile(files) {
         }
 
         //var key_str = "";
-        var key_str = fileview.curr_tree_selection;
-        //var last = $("#tree").dynatree("getRoot");
+        var key_str = fileview.curr_path;
+        
+       // var last = $("#tree").dynatree("getRoot");
+       var last = $("#tree").dynatree("getActiveNode");
 
-        var last = fileview_current_base_dir;
+        //var last = fileview.curr_tree_selection;
         console.log("last: ", last);
         for (var j = 0, numParts = lfn_parts.length; j < numParts; j++) {
             key_str += lfn_parts[j] + "/";
@@ -269,7 +273,7 @@ function addDataFile(files) {
         }
     }
     //$("#tree").dynatree("getRoot").sortChildren(file_cmp, true);
-    fileview_current_base_dir.sortChildren(file_cmp,true);
+    fileview.current_base_dir.sortChildren(file_cmp,true);
     // console.log(up_files);
     // worker.postMessage(up_files);
 }
