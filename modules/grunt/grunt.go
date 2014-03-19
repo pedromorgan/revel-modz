@@ -43,7 +43,7 @@ func (c *GruntCompiler) Refresh() *revel.Error {
 	revel.INFO.Println("Compiling: ", c.Name)
 	os.Chdir(revel.BasePath)
 
-	out, err := exec.Command("grunt", c.Grunt).Output()
+	out, err := exec.Command("grunt", "--no-color", c.Grunt).Output()
 	if err != nil {
 		revel.ERROR.Println("Failed to compile", c.Path, err)
 		revel.ERROR.Println("Output:\n", string(out))
