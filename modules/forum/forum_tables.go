@@ -32,7 +32,7 @@ type ForumMessage struct {
 	MessageId int64
 
 	// message details
-	AuthorId    string // UserId
+	AuthorName  string
 	MessageBody string
 }
 
@@ -63,56 +63,56 @@ func DropTables(db *gorm.DB) error {
 }
 
 func FillTables(db *gorm.DB) error {
-	return errors.New("TODO")
+	for _, t := range fakeTopics {
+		err := db.Save(t).Error
+		if err != nil {
+			return err
+		}
+	}
+	for _, m := range fakeMessages {
+		err := db.Save(m).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 func TestTables(db *gorm.DB) error {
 	return errors.New("TODO")
 }
 
-func GetAllTopics(db *gorm.DB) ([]ForumTopic, error) {
-	return fakeTopics, nil
-}
-
-func GetAllMessagesByTopicId(db *gorm.DB, id int64) ([]ForumMessage, error) {
-	msgs := make([]ForumMessage, 0)
-	for _,m:=range fakeMessages{
-		if m.TopicId == id {
-			msgs = append(msgs, m)
-		}
-	}
-}
-
 var fakeTopics = []ForumTopic{
-	ForumTopic{1,"Topic1", []string{"tagA", "tagB"}	},
-	ForumTopic{2,"Topic2", []string{"tagC", "tagD"}	},
-	ForumTopic{3,"Topic3", []string{"tagE", "tagF"}	},
-	ForumTopic{4,"Topic4", []string{"tagG", "tagH"}	},
-	ForumTopic{5,"Topic5", []string{"tagI", "tagJ"}	},
-	ForumTopic{6,"Topic6", []string{"tagK", "tagL"}	},
+	ForumTopic{TopicId: 1, TopicName: "Topic1", TopicTags: []string{"tagA", "tagB"}},
+	ForumTopic{TopicId: 2, TopicName: "Topic2", TopicTags: []string{"tagC", "tagD"}},
+	ForumTopic{TopicId: 3, TopicName: "Topic3", TopicTags: []string{"tagE", "tagF"}},
+	ForumTopic{TopicId: 4, TopicName: "Topic4", TopicTags: []string{"tagG", "tagH"}},
+	ForumTopic{TopicId: 5, TopicName: "Topic5", TopicTags: []string{"tagI", "tagJ"}},
+	ForumTopic{TopicId: 6, TopicName: "Topic6", TopicTags: []string{"tagK", "tagL"}},
 }
 
-var fakeMessages = []ForumMessage{}
-	ForumMessage{1,1,"T1 Message1", "user1", "t1 msg1 body"},
-	ForumMessage{1,2,"T1 Message2", "user2", "t1 msg2 body"},
-	ForumMessage{1,3,"T1 Message3", "user3", "t1 msg3 body"},
-	
-	ForumMessage{2,1,"T2 Message1", "user2", "t2 msg1 body"},
-	ForumMessage{2,2,"T2 Message2", "user3", "t2 msg2 body"},
-	ForumMessage{2,3,"T2 Message3", "user4", "t2 msg3 body"},
+var fakeMessages = []ForumMessage{
+	ForumMessage{TopicId: 1, MessageId: 1, AuthorName: "user1", MessageBody: "t1 msg1 body"},
+	ForumMessage{TopicId: 1, MessageId: 2, AuthorName: "user2", MessageBody: "t1 msg2 body"},
+	ForumMessage{TopicId: 1, MessageId: 3, AuthorName: "user3", MessageBody: "t1 msg3 body"},
 
-	ForumMessage{3,1,"T3 Message1", "user3", "t3 msg1 body"},
-	ForumMessage{3,2,"T3 Message2", "user4", "t3 msg2 body"},
-	ForumMessage{3,3,"T3 Message3", "user5", "t3 msg3 body"},
+	ForumMessage{TopicId: 2, MessageId: 1, AuthorName: "user2", MessageBody: "t2 msg1 body"},
+	ForumMessage{TopicId: 2, MessageId: 2, AuthorName: "user3", MessageBody: "t2 msg2 body"},
+	ForumMessage{TopicId: 2, MessageId: 3, AuthorName: "user4", MessageBody: "t2 msg3 body"},
 
-	ForumMessage{4,1,"T4 Message1", "user4", "t4 msg1 body"},
-	ForumMessage{4,2,"T4 Message2", "user5", "t4 msg2 body"},
-	ForumMessage{4,3,"T4 Message3", "user6", "t4 msg3 body"},
+	ForumMessage{TopicId: 3, MessageId: 1, AuthorName: "user3", MessageBody: "t3 msg1 body"},
+	ForumMessage{TopicId: 3, MessageId: 2, AuthorName: "user4", MessageBody: "t3 msg2 body"},
+	ForumMessage{TopicId: 3, MessageId: 3, AuthorName: "user5", MessageBody: "t3 msg3 body"},
 
-	ForumMessage{5,1,"T5 Message1", "user5", "t5 msg1 body"},
-	ForumMessage{5,2,"T5 Message2", "user6", "t5 msg2 body"},
-	ForumMessage{5,3,"T5 Message3", "user7", "t5 msg3 body"},
+	ForumMessage{TopicId: 4, MessageId: 1, AuthorName: "user4", MessageBody: "t4 msg1 body"},
+	ForumMessage{TopicId: 4, MessageId: 2, AuthorName: "user5", MessageBody: "t4 msg2 body"},
+	ForumMessage{TopicId: 4, MessageId: 3, AuthorName: "user6", MessageBody: "t4 msg3 body"},
 
-	ForumMessage{6,1,"T6 Message1", "user6", "t6 msg1 body"},
-	ForumMessage{6,2,"T6 Message2", "user7", "t6 msg2 body"},
-	ForumMessage{6,3,"T6 Message3", "user8", "t6 msg3 body"},
+	ForumMessage{TopicId: 5, MessageId: 1, AuthorName: "user5", MessageBody: "t5 msg1 body"},
+	ForumMessage{TopicId: 5, MessageId: 2, AuthorName: "user6", MessageBody: "t5 msg2 body"},
+	ForumMessage{TopicId: 5, MessageId: 3, AuthorName: "user7", MessageBody: "t5 msg3 body"},
+
+	ForumMessage{TopicId: 6, MessageId: 1, AuthorName: "user6", MessageBody: "t6 msg1 body"},
+	ForumMessage{TopicId: 6, MessageId: 2, AuthorName: "user7", MessageBody: "t6 msg2 body"},
+	ForumMessage{TopicId: 6, MessageId: 3, AuthorName: "user8", MessageBody: "t6 msg3 body"},
 }
