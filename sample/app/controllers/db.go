@@ -7,6 +7,7 @@ import (
 
 	"github.com/iassic/revel-modz/modules/analytics"
 	"github.com/iassic/revel-modz/modules/auth"
+	"github.com/iassic/revel-modz/modules/forum"
 	"github.com/iassic/revel-modz/modules/maillist"
 	"github.com/iassic/revel-modz/modules/user"
 	"github.com/iassic/revel-modz/modules/user-files"
@@ -89,6 +90,8 @@ func SetupDevDB() {
 	fillUserTables()
 	fillMailTables()
 
+	forum.FillTables(TestDB)
+
 	testUserDB()
 }
 
@@ -98,6 +101,7 @@ func dropTables() {
 	auth.DropTables(TestDB)
 	user.DropTables(TestDB)
 	maillist.DropTables(TestDB)
+	forum.DropTables(TestDB)
 	// userfiles.DropTables(TestDB)
 }
 
@@ -107,6 +111,7 @@ func addTables() {
 	auth.AddTables(TestDB)
 	user.AddTables(TestDB)
 	maillist.AddTables(TestDB)
+	forum.AddTables(TestDB)
 	userfiles.AddTables(TestDB)
 }
 

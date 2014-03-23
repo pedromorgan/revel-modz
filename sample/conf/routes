@@ -13,8 +13,11 @@ GET     /maillist 								App.Maillist
 POST    /maillist	                            App.MaillistPost
 GET		/register								App.Register
 POST	/register								App.RegisterPost
-GET		/forums									App.Forums
-POST 	/forums/filter 							App.ForumsFilter
+
+GET		/forum									App.Forum
+GET     /forum/:topic_id						App.ForumTopic
+GET		/forum/:topic_id/:msg_id				App.ForumMessage
+POST 	/forum 									User.ForumPost
 
 GET		/login									App.Login
 POST    /login 									App.LoginPost
