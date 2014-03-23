@@ -20,8 +20,8 @@ function handle_forums_filter_button_click(e) {
 
 function dosend_forums_filter_update(id, csrf) {
 
-    var post_query = "";
-    post_query += "" + encodeURIComponent(id);
+    var post_query = "/forums/filter";
+    post_query += "?id=" + encodeURIComponent(id);
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", post_query, true);

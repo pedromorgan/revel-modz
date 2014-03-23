@@ -14,6 +14,7 @@ POST    /maillist	                            App.MaillistPost
 GET		/register								App.Register
 POST	/register								App.RegisterPost
 GET		/forums									App.Forums
+POST 	/forums/filter 							App.ForumsFilter
 
 GET		/login									App.Login
 POST    /login 									App.LoginPost
@@ -30,7 +31,6 @@ GET     /a/maillist                             Admin.MaillistView
 GET     /a/maillistcompose               		Admin.MaillistCompose
 POST    /a/maillistcompose               		Admin.MaillistComposePost
 POST    /a/maillist/filter                     	Admin.MaillistFilter
-
 
 # analytics stuff
 POST    /a/analytics 	                        App.RecordPageEvent

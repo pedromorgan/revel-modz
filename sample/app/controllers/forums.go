@@ -7,3 +7,7 @@ import (
 func (c App) Forums() revel.Result {
 	return c.Render()
 }
+
+func ForumMessageIdPost(id string) revel.Result {
+	return c.Render()
+}
