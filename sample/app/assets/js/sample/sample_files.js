@@ -147,11 +147,14 @@ function openFileOption() {
 function openAddFileOption(){
     document.getElementById("addfiledata").click();
 }
+function fileOption(id){
+    document.getElementById(id).click();
+}
 function deleteFile(){
     
      var tree = fileview.curr_tree_selection;
     var node = $("#tree").dynatree("getActiveNode");
-    
+    console.log("node removed: ", node);
     node.remove();
 }
 function addDataFile(files) {
