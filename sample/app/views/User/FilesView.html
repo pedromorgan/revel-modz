@@ -26,7 +26,15 @@
                         <input type="file" name="addfiledata" id="addfiledata" style="display:none" webkitdirectory onchange="addDataFile(this.files);">
                         <input type="submit" id="submit-file" style="display:none">
 
-                        <a class="tiny button success" id="upload-btn" onclick="openAddFileOption();return;">Add File</a>
+                        <a class="tiny button success" id="add-btn" onclick="openAddFileOption();return;">Add File</a>
+                    </form>
+                </li>
+                <li>
+                    <form enctype="multipart/form-data" method="POST">
+                        <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+                        <input type="submit" id="submit-file" style="display:none">
+
+                        <a class="tiny button alert" id="remove-btn" onclick="deleteFile();return;">Remove File</a>
                     </form>
                 </li>
             </ul>

@@ -147,6 +147,13 @@ function openFileOption() {
 function openAddFileOption(){
     document.getElementById("addfiledata").click();
 }
+function deleteFile(){
+    
+     var tree = fileview.curr_tree_selection;
+    var node = $("#tree").dynatree("getActiveNode");
+    
+    node.remove();
+}
 function addDataFile(files) {
 
     // var files = document.getElementById('filedata').files;
