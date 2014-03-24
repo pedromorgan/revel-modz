@@ -1,8 +1,8 @@
 #!/bin/bash
 
-files=(
-	# init.sh
-	# Gruntfile.js
+templates=(
+	init.sh
+	Gruntfile.js
 
 	conf/app.conf
 	app/init.go
@@ -16,7 +16,7 @@ files=(
 	app/views/templates/header.html
 )
 
-for file in ${files[@]}
+for file in ${templates[@]}
 do
 	echo "${file}"
 	echo "------------------------"
