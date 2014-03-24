@@ -94,12 +94,11 @@ module.exports = function(grunt) {
 
   // Load the plugin that provides the tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-sass');
 
   // Register tasks.
   grunt.registerTask('default', ['uglify','sass']);
-  grunt.registerTask('test', ['jshint', 'qunit']);
+  grunt.registerTask('hint', ['jshint']);
 
 };
