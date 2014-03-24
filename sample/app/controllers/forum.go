@@ -8,7 +8,12 @@ import (
 )
 
 func (c App) Forum() revel.Result {
-	return c.Render()
+	topics, err := forum.GetTopicList(c.Txn)
+	if err != nil {
+		revel.ERROR.Println("Getting forum topic list: ", err)
+	}
+
+	return c.Render(topics)
 }
 
 func (c App) ForumTopic(topic_id, msg_id int) revel.Result {
@@ -17,12 +22,12 @@ func (c App) ForumTopic(topic_id, msg_id int) revel.Result {
 		// enable the scroll to message
 	}
 
-	topics, err := forum.GetTopicList(c.Txn)
+	messages, err := forum.GetAllMessagesByTopicId(c.Txn, int64(topic_id))
 	if err != nil {
-		revel.ERROR.Println("Getting forum topic list: ", err)
+		revel.ERROR.Println("Getting forum topic messages: ", topic_id, err)
 	}
 
-	return c.Render(topics)
+	return c.Render(messages)
 }
 
 func (c App) ForumMessage(topic_id, msg_id int) revel.Result {

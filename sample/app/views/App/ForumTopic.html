@@ -1,0 +1,82 @@
+{{set . "title" "Forum"}}
+
+{{append . "moreScripts" "/ipa/js/hogan-2.0.0.js"}}
+
+{{appendjs . "moreHead" "initForumView();"}}
+
+{{template "templates/header.html" .}}
+{{template "templates/menu.html" .}}
+
+<div class="row">
+    <div class="large-12 large-centered small-12 small-centered columns">
+        <div class="small-4 columns">
+        	<a class="button" id="forum-filter-button">New Topic</a>
+        </div>
+
+        <div class="small-4 columns">
+            <input type="text" id="forum-filter-topicid" placeholder="1" />
+        </div>
+
+        <div class="small-4 columns">
+            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+            <a class="button" id="forum-filter-button">Update</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 large-centered columns">
+        <div class="panel">
+            <h5>Forum</h5>
+
+                <div class="row">
+                	<div class="large-3 small-3 columns">
+                    	TopicId
+                	</div>
+                	<div class="large-3 small-3 columns">
+                    	TopicName
+                	</div>
+                	<div class="large-3 small-3 columns">
+                    	TopicTags
+                	</div>
+                	<div class="large-3 small-3 columns">
+                    	CreatedAt
+                	</div>
+            	</div>
+
+        </div>
+    </div>
+</div>
+
+            	<div id="forum-topiclist-results">
+                <!--May need to change pipeline name and templates for the rows to match elsewhere  -->
+                {{range .messages}}
+                <div class="row">
+                    <div class="large-12 large-centered columns">
+                        <div class="panel">
+                            <div class="row">
+                                <div class="large-4 small-4 columns">
+                                    {{.MessageId}}
+                                </div>
+                                <div class="large-4 small-4 columns">
+                                    {{.AuthorName}}
+                                </div>
+                                <div class="large-4 small-4 columns">
+                                    {{.CreatedAt}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="large-12 small-12 columns">
+                                    {{.MessageBody}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{end}}
+
+                </div>
+
+{{template "templates/footer.html" .}}

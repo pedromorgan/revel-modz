@@ -49,7 +49,7 @@ func GetTopicList(db *gorm.DB) ([]ForumTopic, error) {
 func GetAllMessagesByTopicId(db *gorm.DB, id int64) ([]ForumMessage, error) {
 	var messages []ForumMessage
 
-	err := db.Where(ForumMessage{TopicId: id}).Order("MessageId").Find(&messages).Error
+	err := db.Where(ForumMessage{TopicId: id}).Order("message_id").Find(&messages).Error
 	if err != nil {
 		return nil, err
 	}

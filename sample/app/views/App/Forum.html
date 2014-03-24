@@ -1,4 +1,4 @@
-{{set . "title" "Forums"}}
+{{set . "title" "Forum"}}
 
 {{append . "moreScripts" "/ipa/js/hogan-2.0.0.js"}}
 
@@ -10,16 +10,16 @@
 <div class="row">
     <div class="large-12 large-centered small-12 small-centered columns">
         <div class="small-4 columns">
-        	<a class="button" id="forums-filter-button">New Topic</a>
+        	<a class="button" id="forum-filter-button">New Topic</a>
         </div>
 
         <div class="small-4 columns">
-            <input type="text" id="forums-filter-topicid" placeholder="1" />
+            <input type="text" id="forum-filter-topicid" placeholder="1" />
         </div>
 
         <div class="small-4 columns">
             <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
-            <a class="button" id="forums-filter-button">Update</a>
+            <a class="button" id="forum-filter-button">Update</a>
         </div>
 
     </div>
@@ -28,7 +28,7 @@
 <div class="row">
     <div class="large-12 large-centered columns">
         <div class="panel">
-            <h5>Forums</h5>
+            <h5>Forum</h5>
 
                 <div class="row">
                 	<div class="large-3 small-3 columns">
@@ -38,15 +38,33 @@
                     	TopicName
                 	</div>
                 	<div class="large-3 small-3 columns">
-                    	AuthorId
+                    	TopicTags
                 	</div>
                 	<div class="large-3 small-3 columns">
                     	CreatedAt
                 	</div>
             	</div>
 
-            	<div id="forums-topiclist-results">
+            	<div id="forum-topiclist-results">
             	</div>
+
+                <!--May need to change pipeline name and templates for the rows to match elsewhere  -->
+                {{range .topics}}
+                <div class="row">
+                    <div class="large-3 small-3 columns">
+                        {{.TopicId}}
+                    </div>
+                    <div class="large-3 small-3 columns">
+                        <a href="/forum/{{.TopicId}}">{{.TopicName}}</a>
+                    </div>
+                    <div class="large-3 small-3 columns">
+                        {{.TopicTags}}
+                    </div>
+                    <div class="large-3 small-3 columns">
+                        {{.CreatedAt}}
+                    </div>
+                </div>
+                {{end}}
 
         </div>
     </div>
