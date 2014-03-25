@@ -83,13 +83,13 @@ func SetupTables() {
 
 func SetupDevDB() {
 	revel.INFO.Println("Setting up Dev DB")
-	dropTables()
+	// dropTables()
 	addTables()
 
-	fillUserTables()
-	fillMailTables()
+	// fillUserTables()
+	// fillMailTables()
 
-	testUserDB()
+	// testUserDB()
 }
 
 func dropTables() {

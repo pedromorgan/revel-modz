@@ -42,6 +42,10 @@ GET     /files/query							Files.FilesQuery
 POST    /files/upload                           Files.FileUpload
 POST    /files/content							Files.FileContent
 
+#stripe stuff
+POST    /charge 								User.StripePost
+
+
 
 
 # routes from: github.com/iassic/revel-modz modules
