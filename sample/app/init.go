@@ -43,12 +43,15 @@ func init() {
 		revel.ActionInvoker,           // Invoke the action.
 	}
 
+	// setup grunt asset compilers
 	revel.OnAppStart(func() {
-		appPath := revel.BasePath
-		for _, gruntCompiler := range compilers {
-			path := filepath.Join(appPath, gruntCompiler.Path)
-			revel.INFO.Printf("Listening: %q\n", path)
-			revel.MainWatcher.Listen(gruntCompiler, path)
+		if revel.MainWatcher != nil {
+			appPath := revel.BasePath
+			for _, gruntCompiler := range compilers {
+				path := filepath.Join(appPath, gruntCompiler.Path)
+				revel.INFO.Printf("Listening: %q\n", path)
+				revel.MainWatcher.Listen(gruntCompiler, path)
+			}
 		}
 	})
 
