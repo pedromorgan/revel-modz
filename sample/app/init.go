@@ -89,7 +89,7 @@ var compilers = []*grunt.GruntCompiler{
 	grunt.NewCompiler("Foundation SASS", "app/assets/sass/foundation", "sass:foundation_css"),
 	grunt.NewCompiler("Foundation SASS", "app/assets/sass/foundation_custom.scss", "sass:foundation_css"),
 
-	grunt.NewCompiler("sample JS", "app/assets/js/sample", "uglify:sample_js"),
+	grunt.NewCompilerOnStart("sample JS", "app/assets/js/sample", "uglify:sample_js"),
 	grunt.NewCompiler("sample SASS", "app/assets/sass/sample", "sass:sample_css"),
 	grunt.NewCompiler("sample SASS", "app/assets/sass/sample.scss", "sass:sample_css"),
 }

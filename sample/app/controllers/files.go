@@ -20,6 +20,11 @@ func (c Files) FilesQuery() revel.Result {
 	dsInfos, err := userfiles.GetUserFileInfos(c.Txn, user.UserId)
 	checkERROR(err)
 
+	if dsInfos == nil || len(dsInfos) == 0 {
+		revel.WARN.Println("No files on server")
+		return c.RenderText("NOFILES")
+	}
+
 	return c.RenderJson(dsInfos)
 }
 

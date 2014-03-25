@@ -1,6 +1,6 @@
 
-var fileview = fileview || {};//create new empty obj, 
-/*fileview.curr_tree_selection = ..., 
+var fileview = fileview || {};//create new empty obj,
+/*fileview.curr_tree_selection = ...,
 fileview_current_base_dir = getroot
 init key_str to fileview.curr_tree_selection*/
 
@@ -148,10 +148,10 @@ function openAddFileOption(){
     document.getElementById("addfiledata").click();
 }
 function deleteFile(){
-    
+
      var tree = fileview.curr_tree_selection;
     var node = $("#tree").dynatree("getActiveNode");
-    
+
     node.remove();
 }
 function addDataFile(files) {
@@ -221,7 +221,7 @@ function addDataFile(files) {
 
         //var key_str = "";
         var key_str = fileview.curr_path;
-        
+
        // var last = $("#tree").dynatree("getRoot");
        var last = $("#tree").dynatree("getActiveNode");
 
@@ -342,7 +342,7 @@ function uploadDataFiles(files) {
         var file = files[i];
         lfn = file.webkitRelativePath;
         lfn_parts = lfn.split("/");
-        
+
         if (lfn[lfn.length - 1] == ".") {
             continue;
         }
@@ -422,6 +422,9 @@ function getStoredFiles() {
 function displayStoredFiles(file_json) {
 
     // console.log(req.responseText);
+    if (req.responseText === "NOFILES") {
+        return
+    }
 
     files = JSON.parse(req.responseText);
     if (files == null) {
@@ -553,20 +556,20 @@ function renderFileRightPanel(fileNodes) {
                             <div class="large-3 small-3 columns">
                                 Owner
                             </div>
-                            
+
 
                             <div class="large-5 small-5 columns">
                                 Status
                             </div>
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>';
 
 
-    
+
 
 
 var file_row_template_text = [

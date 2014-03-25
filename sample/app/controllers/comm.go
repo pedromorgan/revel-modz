@@ -51,7 +51,7 @@ func sendTestMessage() error {
 	mail_passwd := os.Getenv("MAIL_PASSWD")
 
 	message := mail.NewTextAndHtmlMessage(
-		[]string{"demo@domain.com"},
+		[]string{"tony@iassic.com"},
 		"Test Message",
 		"Test Text Body",
 		"Test <b>Html</b> <i>Body</i><br>",
@@ -73,5 +73,8 @@ func sendTestMessage() error {
 		Sender: &sender,
 	}
 
-	return mailer.SendMessage(message)
+	revel.ERROR.Printf("%+v\n", mailer)
+	err := mailer.SendMessage(message)
+	revel.ERROR.Printf("%+v\n", err)
+	return err
 }
