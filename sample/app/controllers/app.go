@@ -97,6 +97,7 @@ func (c App) Result() revel.Result {
 	return c.Render()
 }
 
+
 // Defined in signup.go
 // func (c App) Signup() revel.Result
 // func (c App) SignupPost(usersignup *models.UserSignup) revel.Result
