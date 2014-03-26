@@ -17,7 +17,6 @@ type ForumTopic struct {
 
 	TopicId   int64
 	TopicName string
-	TopicTags []string
 }
 
 type ForumMessage struct {
@@ -36,6 +35,30 @@ type ForumMessage struct {
 	MessageBody string
 }
 
+type ForumTopicTag struct {
+	// gorm fields
+	Id        int64
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt time.Time
+
+	TopicId  int64
+	TopicTag string
+}
+
+type ForumTopicStats struct {
+	// gorm fields
+	Id        int64
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt time.Time
+
+	TopicId int64
+
+	NumMessages int64
+	NumViews    int64
+}
+
 func AddTables(db *gorm.DB) error {
 	var err error
 	err = db.AutoMigrate(ForumTopic{}).Error
@@ -43,6 +66,14 @@ func AddTables(db *gorm.DB) error {
 		return err
 	}
 	err = db.AutoMigrate(ForumMessage{}).Error
+	if err != nil {
+		return err
+	}
+	err = db.AutoMigrate(ForumTopicTag{}).Error
+	if err != nil {
+		return err
+	}
+	err = db.AutoMigrate(ForumTopicStats{}).Error
 	if err != nil {
 		return err
 	}
@@ -56,6 +87,14 @@ func DropTables(db *gorm.DB) error {
 		return err
 	}
 	err = db.DropTable(ForumMessage{}).Error
+	if err != nil {
+		return err
+	}
+	err = db.DropTable(ForumTopicTag{}).Error
+	if err != nil {
+		return err
+	}
+	err = db.DropTable(ForumTopicStats{}).Error
 	if err != nil {
 		return err
 	}
@@ -83,12 +122,12 @@ func TestTables(db *gorm.DB) error {
 }
 
 var fakeTopics = []ForumTopic{
-	ForumTopic{TopicId: 1, TopicName: "Topic1", TopicTags: []string{"tagA", "tagB"}},
-	ForumTopic{TopicId: 2, TopicName: "Topic2", TopicTags: []string{"tagC", "tagD"}},
-	ForumTopic{TopicId: 3, TopicName: "Topic3", TopicTags: []string{"tagE", "tagF"}},
-	ForumTopic{TopicId: 4, TopicName: "Topic4", TopicTags: []string{"tagG", "tagH"}},
-	ForumTopic{TopicId: 5, TopicName: "Topic5", TopicTags: []string{"tagI", "tagJ"}},
-	ForumTopic{TopicId: 6, TopicName: "Topic6", TopicTags: []string{"tagK", "tagL"}},
+	ForumTopic{TopicId: 1, TopicName: "Topic1"},
+	ForumTopic{TopicId: 2, TopicName: "Topic2"},
+	ForumTopic{TopicId: 3, TopicName: "Topic3"},
+	ForumTopic{TopicId: 4, TopicName: "Topic4"},
+	ForumTopic{TopicId: 5, TopicName: "Topic5"},
+	ForumTopic{TopicId: 6, TopicName: "Topic6"},
 }
 
 var fakeMessages = []ForumMessage{

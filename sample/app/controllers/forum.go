@@ -7,8 +7,11 @@ import (
 	"github.com/iassic/revel-modz/sample/app/routes"
 )
 
-func (c App) Forum() revel.Result {
-	topics, err := forum.GetTopicList(c.Txn)
+func (c App) Forum(msg_pos, count int) revel.Result {
+	if count == 0 {
+		count = 20
+	}
+	topics, err := forum.GetTopicList(c.Txn, msg_pos, count)
 	if err != nil {
 		revel.ERROR.Println("Getting forum topic list: ", err)
 	}
