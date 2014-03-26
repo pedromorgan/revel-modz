@@ -7,12 +7,15 @@ module:testrunner
 GET     /                                       App.Index
 GET     /result                                 App.Result
 
+POST    /activate 								App.ActivatePost
+
 GET     /signup	                                App.Signup
 POST    /signup	                                App.SignupPost
 GET     /maillist 								App.Maillist
 POST    /maillist	                            App.MaillistPost
 GET		/register								App.Register
 POST	/register								App.RegisterPost
+GET		/forums									App.Forums
 
 GET		/login									App.Login
 POST    /login 									App.LoginPost
@@ -29,7 +32,6 @@ GET     /a/maillist                             Admin.MaillistView
 GET     /a/maillistcompose               		Admin.MaillistCompose
 POST    /a/maillist/savedraft               	Admin.MaillistSaveDraftPost
 POST    /a/maillist/filter                     	Admin.MaillistFilter
-
 
 # analytics stuff
 POST    /a/analytics 	                        App.RecordPageEvent

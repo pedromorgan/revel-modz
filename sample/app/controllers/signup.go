@@ -49,6 +49,20 @@ func (c App) SignupPost(usersignup *models.UserSignup) revel.Result {
 	err = auth.AddUser(TestDB, UB.UserId, usersignup.Password)
 	checkERROR(err)
 
+	/**********
+
+		generate token
+
+		generate email
+
+		send email  (with token as part of link)
+
+		href="http://localhost:9000/activate?token=" + token
+
+	 	Do DB stuff (later)
+
+		**********/
+
 	c.Flash.Out["heading"] = "Thanks for Joining!"
 	c.Flash.Out["message"] = "you should be receiving an email at " +
 		usersignup.Email + " to confirm and activate your account."
@@ -123,4 +137,14 @@ func (c App) RegisterPost(userregister *models.UserRegister) revel.Result {
 		userregister.Email + " to confirm and activate your account."
 
 	return c.Redirect(routes.App.Result())
+}
+
+func (c App) ActivatePost(token string) revel.Result {
+
+	revel.WARN.Println("ActToken =", token)
+
+	c.Flash.Out["heading"] = "Thanks for Activating!"
+	c.Flash.Out["message"] = "More of a message will be here eventually"
+
+	return c.Redirect(routes.App.Results())
 }
