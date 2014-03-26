@@ -7,7 +7,7 @@ module:testrunner
 GET     /                                       App.Index
 GET     /result                                 App.Result
 
-POST    /activate 								App.ActivatePost
+POST    /activate/:token 						App.ActivatePost
 
 GET     /signup	                                App.Signup
 POST    /signup	                                App.SignupPost
