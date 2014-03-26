@@ -10,15 +10,18 @@
 <div class="row">
     <div class="large-12 large-centered small-12 small-centered columns">
         <div class="small-4 columns">
-        	<a class="button" id="forum-filter-button">New Topic</a>
+            <!-- Button to create a new topic -->
+        	<a class="button" id="forum-new-topic-button">New Topic</a>
         </div>
 
         <div class="small-4 columns">
+            <!-- Change to search bar? -->
             <input type="text" id="forum-filter-topicid" placeholder="1" />
         </div>
 
         <div class="small-4 columns">
             <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+            <!-- Topics update button -->
             <a class="button" id="forum-filter-button">Update</a>
         </div>
 
@@ -27,47 +30,36 @@
 
 <div class="row">
     <div class="large-12 large-centered columns">
-        <div class="panel">
-            <h5>Forum</h5>
+        <h5>Forum</h5>
 
-                <div class="row">
-                	<div class="large-3 small-3 columns">
-                    	TopicId
-                	</div>
-                	<div class="large-3 small-3 columns">
-                    	TopicName
-                	</div>
-                	<div class="large-3 small-3 columns">
-                    	TopicTags
-                	</div>
-                	<div class="large-3 small-3 columns">
-                    	CreatedAt
-                	</div>
-            	</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Topic ID</th>
+                        <th>Topic Name</th>
+                        <th>Tags</th>
+                        <th>Opened At</th>
+                        <th>Opened By</th>
+                    </tr>
+                </thead>
 
-            	<div id="forum-topiclist-results">
-            	</div>
-
-                <!--May need to change pipeline name and templates for the rows to match elsewhere  -->
                 {{range .topics}}
-                <div class="row">
-                    <div class="large-3 small-3 columns">
-                        {{.TopicId}}
-                    </div>
-                    <div class="large-3 small-3 columns">
-                        <a href="/forum/{{.TopicId}}">{{.TopicName}}</a>
-                    </div>
-                    <div class="large-3 small-3 columns">
-                        {{.TopicTags}}
-                    </div>
-                    <div class="large-3 small-3 columns">
-                        {{.CreatedAt}}
-                    </div>
-                </div>
+                <tbody>
+                    <tr>
+                        <th>{{.TopicId}}</th>
+                        <th>
+                            <a href="/forum/{{.TopicId}}">{{.TopicName}}</a>
+                        </th>
+                        <th>{{.TopicTags}}</th>
+                        <th>{{.OpenedBy}}</th>
+                        <th>{{.OpenedAt}}</th>
+                    </tr>
+                </tbody>
                 {{end}}
+            </table>
 
-        </div>
     </div>
 </div>
+
 
 {{template "templates/footer.html" .}}

@@ -9,17 +9,24 @@
 
 <div class="row">
     <div class="large-12 large-centered small-12 small-centered columns">
-        <div class="small-4 columns">
-        	<a class="button" id="forum-filter-button">New Topic</a>
+        <div class="small-3 columns">
+            <a class="button" id="forum-topic-list-button" href="/forum">Topic List</a>
         </div>
 
-        <div class="small-4 columns">
+        <div class="small-3 columns">
+            <!-- Change to search bar? -->
             <input type="text" id="forum-filter-topicid" placeholder="1" />
         </div>
 
-        <div class="small-4 columns">
+        <div class="small-3 columns">
             <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+            <!-- Messages update button -->
             <a class="button" id="forum-filter-button">Update</a>
+        </div>
+
+        <div class="small-3 columns">
+            <!-- Open a text area to post a reply -->
+            <a class="button" id="forum-reply-button">Reply</a>
         </div>
 
     </div>
@@ -28,55 +35,55 @@
 <div class="row">
     <div class="large-12 large-centered columns">
         <div class="panel">
-            <h5>Forum</h5>
-
-                <div class="row">
-                	<div class="large-3 small-3 columns">
-                    	TopicId
-                	</div>
-                	<div class="large-3 small-3 columns">
-                    	TopicName
-                	</div>
-                	<div class="large-3 small-3 columns">
-                    	TopicTags
-                	</div>
-                	<div class="large-3 small-3 columns">
-                    	CreatedAt
-                	</div>
-            	</div>
-
+            <div class="row">
+                {{with .detail.Brief}}
+                <div class="large-3 small-3 columns">
+                    <b>{{.TopicId}}</b>
+                </div>
+                <div class="large-3 small-3 columns">
+                    <b>{{.TopicName}}</b>
+                </div>
+                <div class="large-3 small-3 columns">
+                    <b>{{.OpenedBy}}</b>
+                </div>
+                <div class="large-3 small-3 columns">
+                    <b>{{.OpenedAt}}</b>
+                </div>
+                {{end}}
+            </div>
         </div>
     </div>
 </div>
 
-            	<div id="forum-topiclist-results">
-                <!--May need to change pipeline name and templates for the rows to match elsewhere  -->
-                {{range .messages}}
+<div id="forum-topiclist-results">
+    {{range .detail.Messages}}
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div class="panel">
                 <div class="row">
-                    <div class="large-12 large-centered columns">
-                        <div class="panel">
-                            <div class="row">
-                                <div class="large-4 small-4 columns">
-                                    {{.MessageId}}
-                                </div>
-                                <div class="large-4 small-4 columns">
-                                    {{.AuthorName}}
-                                </div>
-                                <div class="large-4 small-4 columns">
-                                    {{.CreatedAt}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="large-12 small-12 columns">
-                                    {{.MessageBody}}
-                                </div>
-                            </div>
-                        </div>
+                    <div class="large-4 small-4 columns">
+                        {{.MessageId}}
+                    </div>
+                    <div class="large-4 small-4 columns">
+                        {{.MessageTime}}
+                    </div>
+                    <div class="large-4 small-4 columns">
+                        {{.MessageAuth}}
+                        
                     </div>
                 </div>
 
-                {{end}}
-
+                <div class="row">
+                    <div class="large-12 small-12 columns">
+                        {{.MessageBody}}
+                    </div>
                 </div>
+
+            </div>
+        </div>
+    </div>
+    {{end}}
+
+</div>
 
 {{template "templates/footer.html" .}}

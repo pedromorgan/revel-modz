@@ -25,12 +25,12 @@ func (c App) ForumTopic(topic_id, msg_id int) revel.Result {
 		// enable the scroll to message
 	}
 
-	messages, err := forum.GetAllMessagesByTopicId(c.Txn, int64(topic_id))
+	detail, err := forum.GetAllMessagesByTopicId(c.Txn, int64(topic_id))
 	if err != nil {
-		revel.ERROR.Println("Getting forum topic messages: ", topic_id, err)
+		revel.ERROR.Println("Getting forum topic detail: ", topic_id, err)
 	}
 
-	return c.Render(messages)
+	return c.Render(detail)
 }
 
 func (c App) ForumMessage(topic_id, msg_id int) revel.Result {

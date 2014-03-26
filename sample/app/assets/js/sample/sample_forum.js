@@ -1,11 +1,27 @@
 function initForumView() {
-	console.log("initForumView");
+    console.log("initForumView");
 	$("#forum-filter-button").on("click", handle_forum_filter_button_click);
+    $("#forum-reply-button").on("click", handle_forum_reply_button_click);
 }
 
 function handle_forum_filter_button_click(e) {
 	// dev debug printing
     console.log("filter button was clicked");
+    console.log(e);
+
+    // post filter values to server
+    var id = $("#forum-filter-topicid").val();
+    var csrf = $("#csrf_token").val();
+
+    console.log("id", id);
+
+    // actually send data
+    dosend_forum_filter_update(id, csrf);
+}
+
+function handle_forum_reply_button_click(e) {
+    // dev debug printing
+    console.log("reply button was clicked");
     console.log(e);
 
     // post filter values to server
