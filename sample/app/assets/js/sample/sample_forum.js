@@ -2,6 +2,8 @@ function initForumView() {
     console.log("initForumView");
 	$("#forum-filter-button").on("click", handle_forum_filter_button_click);
     $("#forum-reply-button").on("click", handle_forum_reply_button_click);
+    $("#forum-new-topic-button").on("click", handle_forum_newtopic_button_click);
+
 }
 
 function handle_forum_filter_button_click(e) {
@@ -24,14 +26,36 @@ function handle_forum_reply_button_click(e) {
     console.log("reply button was clicked");
     console.log(e);
 
-    // post filter values to server
-    var id = $("#forum-filter-topicid").val();
-    var csrf = $("#csrf_token").val();
+    initReplyEditor();
 
-    console.log("id", id);
+}
 
-    // actually send data
-    dosend_forum_filter_update(id, csrf);
+function handle_forum_newtopic_button_click(e) {
+    // dev debug printing
+    console.log("new  topic button was clicked");
+    console.log(e);
+    var forum_newtopic_text = [
+    '    <div class="row">',
+    '       <div class="large-9 small-9 columns">',
+    '           <input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />',
+    '           <input id="subject_field" type="text" placeholder="Subject">',
+    '       </div>',
+    '       <div class="large-3 small-3 columns">',
+    '           <a class="button" id="topic_post_button">Post</a>',
+    '       </div>',
+    '    </div>',
+    '    <div class="row">',
+    '       <div id="epiceditor"></div>',
+    '    </div>',
+    ].join("\n");
+
+
+    $("#forum-topiclist-new-topic").append(forum_newtopic_text);
+
+    $("#topic_post_button").on("click", handle_forum_newtopic_button_click);
+
+    initTopicEditor();
+
 }
 
 function dosend_forum_filter_update(id, csrf) {

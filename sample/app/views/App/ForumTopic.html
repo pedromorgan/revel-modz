@@ -4,6 +4,9 @@
 
 {{appendjs . "moreHead" "initForumView();"}}
 
+{{append . "moreStyles" "/ipa/js/epiceditor.min.js"}}
+{{append . "moreScripts" "/ipa/js/epiceditor.min.js"}}
+
 {{template "templates/header.html" .}}
 {{template "templates/menu.html" .}}
 
@@ -84,6 +87,15 @@
     </div>
     {{end}}
 
+</div>
+
+<div id="forum-topiclist-new-topic">
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div id="epiceditor"></div>
+
+        </div>
+    </div>
 </div>
 
 {{template "templates/footer.html" .}}
