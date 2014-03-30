@@ -36,6 +36,92 @@ type TopicDetail struct {
 	Messages []MessageWire
 }
 
+func AddNewTopic(db *gorm.DB, author, subject, body string) error {
+	var err error
+	tId, _ := getNextTopicId(db)
+	if err != nil {
+		return err
+	}
+	mId, _ := getNextMsgIdByTopicId(db, tId)
+	if err != nil {
+		return err
+	}
+
+	topic := &ForumTopic{
+		TopicId:   tId,
+		TopicName: subject,
+	}
+	msg := &ForumMessage{
+		TopicId:     tId,
+		MessageId:   mId,
+		AuthorName:  author,
+		MessageBody: body,
+	}
+	stats := &ForumTopicStats{
+		TopicId:     tId,
+		NumMessages: 1,
+		NumViews:    0,
+	}
+
+	err = db.Save(topic).Error
+	if err != nil {
+		return err
+	}
+	err = db.Save(msg).Error
+	if err != nil {
+		return err
+	}
+	err = db.Save(stats).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func AddNewMessage(db *gorm.DB, author, message string, topicId int64) error {
+	var err error
+	mId, err := getNextMsgIdByTopicId(db, topicId)
+	if err != nil {
+		return err
+	}
+	stats, err := getStatsByTopicId(db, topicId)
+	if err != nil {
+		return err
+	}
+
+	msg := &ForumMessage{
+		TopicId:     topicId,
+		MessageId:   mId,
+		AuthorName:  author,
+		MessageBody: message,
+	}
+	stats.NumMessages += 1
+
+	err = db.Save(msg).Error
+	if err != nil {
+		return err
+	}
+	err = db.Save(stats).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func AddTopicTag(db *gorm.DB, tag string, topicId int64) error {
+	var err error
+	ftag := &ForumTopicTag{
+		TopicId:  topicId,
+		TopicTag: tag,
+	}
+
+	err = db.Save(ftag).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func GetTopicList(db *gorm.DB, start, count int) ([]TopicBrief, error) {
 	var topics []ForumTopic
 
