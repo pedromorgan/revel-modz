@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"bufio"
+	"bytes"
 	"math/rand"
 	"os"
 
@@ -9,6 +11,9 @@ import (
 	"github.com/iassic/revel-modz/modules/user"
 	"github.com/revel/revel"
 	"github.com/revel/revel/mail"
+
+	htmpl "html/template"
+	ttmpl "text/template"
 
 	"github.com/iassic/revel-modz/sample/app/models"
 	"github.com/iassic/revel-modz/sample/app/routes"
@@ -150,6 +155,10 @@ func (c App) ActivatePost(token string) revel.Result {
 
 	revel.WARN.Println("ActToken =", token)
 
+	//have the function look up token on DB
+
+	//check token value and expiration
+
 	c.Flash.Out["heading"] = "Thanks for Activating!"
 	c.Flash.Out["message"] = "More of a message will be here eventually"
 
@@ -170,6 +179,26 @@ func sendActivationEmail(email, token string) error {
 	revel.INFO.Println(email)
 	revel.INFO.Println(token)
 
+	params := activationEmailParams{"http://localhost:9000", token}
+
+	text_tmpl := ttmpl.Must(ttmpl.New("text_body").Parse(email_text_body))
+	text_buf := new(bytes.Buffer)
+	text_wtr := bufio.NewWriter(text_buf)
+	err := text_tmpl.Execute(text_wtr, params)
+	if err != nil {
+		revel.ERROR.Println("executing text_tmpl:", err)
+	}
+	text_wtr.Flush()
+
+	html_tmpl := htmpl.Must(htmpl.New("html_body").Parse(email_html_body))
+	html_buf := new(bytes.Buffer)
+	html_wtr := bufio.NewWriter(html_buf)
+	err = html_tmpl.Execute(html_wtr, params)
+	if err != nil {
+		revel.ERROR.Println("executing html_tmpl:", err)
+	}
+	html_wtr.Flush()
+
 	mail_server := os.Getenv("MAIL_SERVER")
 	mail_sender := os.Getenv("MAIL_SENDER")
 	mail_passwd := os.Getenv("MAIL_PASSWD")
@@ -177,8 +206,8 @@ func sendActivationEmail(email, token string) error {
 	message := mail.NewTextAndHtmlMessage(
 		[]string{email},
 		"Hello from iassic",
-		email_text_body,
-		email_html_body,
+		text_buf.String(),
+		html_buf.String(),
 	)
 	// message.Cc = []string{"admin@domain.com"}
 	// message.Bcc = []string{"secret@domain.com"}
@@ -202,6 +231,11 @@ func sendActivationEmail(email, token string) error {
 	err := mailer.SendMessage(message)
 	revel.ERROR.Printf("%+v\n", err)
 	return err
+}
+
+type activationEmailParams struct {
+	WebLocation string
+	Token       string
 }
 
 var email_text_body = `
