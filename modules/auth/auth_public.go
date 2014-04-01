@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"time"
 
 	"code.google.com/p/go.crypto/bcrypt"
 	"github.com/jinzhu/gorm"
@@ -60,6 +61,21 @@ func UpdatePassword(db *gorm.DB, uId int64, new_password string) error {
 	}
 }
 
-func ActivateUser(db *gorm.DB, uId int64, token string) error {
+func AddUserActivationToken(db *gorm.DB, uId int64, token string, sentAt, expires time.Time) error {
+	act := UserAuthActivate{
+		UserId:      uId,
+		Token:       token,
+		EmailSentAt: sentAt,
+		ExpiresAt:   expires,
+	}
+
+	err := db.Save(&act).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func CheckUserActivationToken(db *gorm.DB, uId int64, token string) error {
 	return errors.New("Activate function not implemented")
 }
