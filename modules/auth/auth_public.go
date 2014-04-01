@@ -15,11 +15,7 @@ func AddUser(db *gorm.DB, uId int64, password string) error {
 	}
 
 	// TODO: send activation email and add activation record
-	err = addActivationRecord(db, uId)
-	if err != nil {
-		return err
-	}
-
+	//doing this in signup.go
 	return nil
 }
 
@@ -76,6 +72,42 @@ func AddUserActivationToken(db *gorm.DB, uId int64, token string, sentAt, expire
 	return nil
 }
 
-func CheckUserActivationToken(db *gorm.DB, uId int64, token string) error {
-	return errors.New("Activate function not implemented")
+func CheckUserActivationToken(db *gorm.DB, token string, now time.Time) (bool, error) {
+	var act UserAuthActivate
+	err := db.Where(&UserAuthActivate{Token: token}).First(&act).Error
+	if err == gorm.RecordNotFound {
+		// fail
+		return false, errors.New("Activation failed")
+	}
+	if err != nil {
+		return false, err
+	}
+
+	if now.After(act.ExpiresAt) {
+		// fail
+		return false, errors.New("Activation timed out")
+	}
+
+	// success
+	// remove activate token
+	err = db.Delete(&act).Error
+	if err != nil {
+		return false, err
+	}
+
+	// get user auth data
+	var u UserAuth
+	err = db.Where(&UserAuth{UserId: act.UserId}).First(&u).Error
+	if err != nil {
+		return false, err
+	}
+	// set activated to true
+	u.Activated = true
+	// update the user auth data
+	err = db.Save(&u).Error
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }

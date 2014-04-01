@@ -3,17 +3,19 @@ package controllers
 import (
 	"bufio"
 	"bytes"
+	"fmt"
 	"math/rand"
 	"os"
+	"time"
+
+	htmpl "html/template"
+	ttmpl "text/template"
 
 	"github.com/iassic/revel-modz/modules/auth"
 	"github.com/iassic/revel-modz/modules/maillist"
 	"github.com/iassic/revel-modz/modules/user"
 	"github.com/revel/revel"
 	"github.com/revel/revel/mail"
-
-	htmpl "html/template"
-	ttmpl "text/template"
 
 	"github.com/iassic/revel-modz/sample/app/models"
 	"github.com/iassic/revel-modz/sample/app/routes"
@@ -62,18 +64,13 @@ func (c App) SignupPost(usersignup *models.UserSignup) revel.Result {
 	token := generateSecret()
 	revel.INFO.Println(token)
 
+	now := time.Now()
+	expires := now.Add(time.Hour * 72)
+
+	err = auth.AddUserActivationToken(TestDB, uuid, token, now, expires)
+	checkERROR(err)
+
 	sendActivationEmail(usersignup.Email, token)
-	/**********
-		generate email
-
-		send email  (with token as part of link)
-
-		href="http://localhost:9000/activate?token=" + token
-		<a href="http://localhost:9000/activate/TOKEN">Activate Account</a>
-
-	 	Do DB stuff (later)
-
-		**********/
 
 	c.Flash.Out["heading"] = "Thanks for Joining!"
 	c.Flash.Out["message"] = "you should be receiving an email at " +
@@ -144,6 +141,14 @@ func (c App) RegisterPost(userregister *models.UserRegister) revel.Result {
 	err = user.AddUserPhone(TestDB, uuid, "default", userregister.PhoneNumber)
 	checkERROR(err)
 
+	/**
+	token := generateSecret()
+	revel.INFO.Println(token)
+
+	sendActivationEmail(userregister.Email, token)
+
+	**/
+
 	c.Flash.Out["heading"] = "Thanks for Joining!"
 	c.Flash.Out["message"] = "you should be receiving an email at " +
 		userregister.Email + " to confirm and activate your account."
@@ -153,16 +158,27 @@ func (c App) RegisterPost(userregister *models.UserRegister) revel.Result {
 
 func (c App) ActivatePost(token string) revel.Result {
 
+	// print token
 	revel.WARN.Println("ActToken =", token)
 
-	//have the function look up token on DB
+	now := time.Now()
 
-	//check token value and expiration
+	// check token value and expiration
+	success, err := auth.CheckUserActivationToken(TestDB, token, now)
 
-	c.Flash.Out["heading"] = "Thanks for Activating!"
-	c.Flash.Out["message"] = "More of a message will be here eventually"
+	if err != nil || !success {
 
-	return c.Redirect(routes.App.Result())
+		c.Flash.Out["heading"] = "Activation FAILED :["
+		c.Flash.Out["message"] = fmt.Sprint(err)
+
+		return c.Redirect(routes.App.Result())
+	} else {
+		c.Flash.Out["heading"] = "Thanks for Activating!"
+		c.Flash.Out["message"] = "Try logging in to your account."
+
+		return c.Redirect(routes.App.Result())
+	}
+	return nil
 }
 
 const alphaNumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
@@ -228,7 +244,7 @@ func sendActivationEmail(email, token string) error {
 
 	revel.ERROR.Printf("%+v\n", mailer)
 
-	err := mailer.SendMessage(message)
+	err = mailer.SendMessage(message)
 	revel.ERROR.Printf("%+v\n", err)
 	return err
 }
@@ -243,12 +259,12 @@ Thanks for joining iassic.com!
 
 To activate your account copy the following link into your browser:
 
-{{web_location}}/activate?id={{.token}}
+{{.WebLocation}}/activate/{{.Token}}
 `
 var email_html_body = `
 Thanks for joining iassic.com!<br><br>
 
 To activate your account click the following link:
 <br>
-<a href="{{web_location}}/activate?id={{.token}}">Activate Account</a>
+<a href="{{.WebLocation}}/activate/{{.Token}}">Activate Account</a>
 `

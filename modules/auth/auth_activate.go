@@ -2,8 +2,6 @@ package auth
 
 import (
 	"time"
-
-	"github.com/jinzhu/gorm"
 )
 
 type UserAuthActivate struct {
