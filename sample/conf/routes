@@ -17,7 +17,8 @@ POST	/register								App.RegisterPost
 GET		/forum									App.Forum
 GET     /forum/:topic_id						App.ForumTopic
 GET		/forum/:topic_id/:msg_id				App.ForumMessage
-POST 	/forum 									User.ForumPost
+POST 	/forum/topic 							User.ForumTopicPost
+POST 	/forum/message							User.ForumMessagePost
 
 GET		/login									App.Login
 POST    /login 									App.LoginPost

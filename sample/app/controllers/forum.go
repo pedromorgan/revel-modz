@@ -37,7 +37,30 @@ func (c App) ForumMessage(topic_id, msg_id int) revel.Result {
 	return c.Redirect(routes.App.ForumTopic(topic_id, msg_id))
 }
 
-func (c User) ForumPost(author, subject, content string, tags []string) revel.Result {
-	revel.INFO.Println("Forum POST: ", author, subject, content, tags)
-	return c.Render()
+func (c User) ForumTopicPost(subject, content string, tags []string) revel.Result {
+	u := c.userConnected()
+	revel.INFO.Println("Forum Topic POST: ", u.UserName, subject, content)
+
+	err := forum.AddNewTopic(c.Txn, u.UserName, subject, content)
+	if err != nil {
+		revel.ERROR.Println("Posting forum topic: ", err)
+		return c.RenderText("Error")
+	}
+
+	// Add topic tags?
+
+	return c.RenderText("Success")
+}
+
+func (c User) ForumMessagePost(content string, topicId int64) revel.Result {
+	u := c.userConnected()
+	revel.INFO.Println("Forum Message POST: ", u.UserName, topicId, "\n", content)
+
+	err := forum.AddNewMessage(c.Txn, u.UserName, content, topicId)
+	if err != nil {
+		revel.ERROR.Println("Posting forum message: ", err)
+		return c.RenderText("Error")
+	}
+
+	return c.RenderText("Success")
 }

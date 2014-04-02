@@ -107,9 +107,18 @@ func FillTables(db *gorm.DB) error {
 		if err != nil {
 			return err
 		}
+		stats := &ForumTopicStats{
+			TopicId:     t.TopicId,
+			NumMessages: 0,
+			NumViews:    0,
+		}
+		err = db.Save(stats).Error
+		if err != nil {
+			return err
+		}
 	}
 	for _, m := range fakeMessages {
-		err := db.Save(m).Error
+		err := AddNewMessage(db, m.AuthorName, m.MessageBody, m.TopicId)
 		if err != nil {
 			return err
 		}
