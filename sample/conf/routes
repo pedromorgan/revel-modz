@@ -43,7 +43,7 @@ POST    /files/upload                           Files.FileUpload
 POST    /files/content							Files.FileContent
 
 #stripe stuff
-POST    /charge 								User.StripePost
+POST   /charge/:plan 							User.StripePost
 
 
 

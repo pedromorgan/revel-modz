@@ -1,5 +1,64 @@
-Plans
-<a href="#" class="button">Monthly</a>
-<a href="#" class="button">Semester</a>
-<a href="#" class="button">Yearly</a>
+	<div class="row">
+		<div class="large-4 columns">
+			<ul class="pricing-table">
+  				<li class="title">Standard</li>
+  				<li class="price">$20.00</li>
+  				<li class="description">Normal Monthly subscription</li>
+  				<li class="cta-button">
+  					<form action="/charge/Standard" method="POST">
+  						<script
+    						src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    						data-key={{.publick}}
+    						data-name="Iassic"
+    						data-description="Standard Plan ($20.00)"
+    						data-amount="2000">
+  						</script>
+  						<input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />
+					</form>
+				</li>
+			</ul>
+		</div>
+		<div class="large-4 columns">
+			<ul class="pricing-table">
+  				<li class="title">Semester</li>
+  				<li class="price">$10.00</li>
+  				<li class="description">Semester Subscription</li>
+  				<li class="cta-button">
+  					<form action="/charge/Semester" method="POST">
+  						<script
+    						src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    						data-key={{.publick}}
+    						data-name="Iassic"
+    						data-description="Semester Plan ($10.00)"
+    						data-amount="1000">
+  						</script>
+  						<input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />
+					</form>
+				</li>
+
+			</ul>
+		</div>
+		<div class="large-4 columns">
+			<ul class="pricing-table">
+  				<li class="title">Corporate</li>
+  				<li class="price">$100.00</li>
+  				<li class="description">Corporate Monthly Subscription</li>
+  				<li class="cta-button">
+  					<form action="/charge/Corporate" method="POST">
+  						<script
+    						src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    						data-key={{.publick}}
+    						data-name="Iassic"
+    						data-description="Corporate Plan ($100.00)"
+    						data-amount="10000">
+  						</script>
+  						<input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />
+					</form>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+
+
 
