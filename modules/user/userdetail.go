@@ -1,9 +1,8 @@
 package user
 
 import (
-	"time"
-
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type UserDetail struct {
@@ -21,7 +20,7 @@ type UserDetail struct {
 	LastName  string
 	Suffix    string
 
-	Dob time.Time
+	Dob string
 	Sex string
 }
 

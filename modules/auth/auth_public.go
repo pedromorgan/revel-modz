@@ -72,42 +72,43 @@ func AddUserActivationToken(db *gorm.DB, uId int64, token string, sentAt, expire
 	return nil
 }
 
-func CheckUserActivationToken(db *gorm.DB, token string, now time.Time) (bool, error) {
+//returns success, user id, and error
+func CheckUserActivationToken(db *gorm.DB, token string, now time.Time) (bool, int64, error) {
 	var act UserAuthActivate
 	err := db.Where(&UserAuthActivate{Token: token}).First(&act).Error
 	if err == gorm.RecordNotFound {
 		// fail
-		return false, errors.New("Activation failed")
+		return false, 0, errors.New("Activation failed")
 	}
 	if err != nil {
-		return false, err
+		return false, 0, err
 	}
 
 	if now.After(act.ExpiresAt) {
 		// fail
-		return false, errors.New("Activation timed out")
+		return false, 0, errors.New("Activation timed out")
 	}
 
 	// success
 	// remove activate token
 	err = db.Delete(&act).Error
 	if err != nil {
-		return false, err
+		return false, 0, err
 	}
 
 	// get user auth data
 	var u UserAuth
 	err = db.Where(&UserAuth{UserId: act.UserId}).First(&u).Error
 	if err != nil {
-		return false, err
+		return false, 0, err
 	}
 	// set activated to true
 	u.Activated = true
 	// update the user auth data
 	err = db.Save(&u).Error
 	if err != nil {
-		return false, err
+		return false, 0, err
 	}
 
-	return true, nil
+	return true, act.UserId, nil
 }

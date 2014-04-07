@@ -86,10 +86,9 @@ func SetupDevDB() {
 	dropTables()
 	addTables()
 
-	fillUserTables()
-	fillMailTables()
+	user.FillTables(TestDB)
 
-	testUserDB()
+	// testUserDB()
 }
 
 func dropTables() {
@@ -136,7 +135,6 @@ func fillUserTables() {
 	}
 	revel.INFO.Println("Filled User DBs")
 }
-
 func fillMailTables() {
 	var err error
 	for _, um := range dev_users {

@@ -8,12 +8,13 @@ import (
 
 // Union of all the User* tables
 type User struct {
+	Id     int64
 	UserId int64
 
 	Basic        UserBasic
 	Detail       UserDetail
 	Addresses    []UserAddress
-	PhoneNumbers []UserPhone
+	Phones       []UserPhone
 	ProfileElems []UserProfileElement
 }
 

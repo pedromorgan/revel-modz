@@ -164,7 +164,7 @@ func (c App) ActivatePost(token string) revel.Result {
 	now := time.Now()
 
 	// check token value and expiration
-	success, err := auth.CheckUserActivationToken(TestDB, token, now)
+	success, uuid, err := auth.CheckUserActivationToken(TestDB, token, now)
 
 	if err != nil || !success {
 
@@ -174,7 +174,18 @@ func (c App) ActivatePost(token string) revel.Result {
 		return c.Redirect(routes.App.Result())
 	} else {
 		c.Flash.Out["heading"] = "Thanks for Activating!"
-		c.Flash.Out["message"] = "Try logging in to your account."
+		c.Flash.Out["message"] = "You should be logged into your account."
+
+		UB, err := user.GetUserBasicById(c.Txn, uuid)
+		checkERROR(err)
+
+		if UB == nil {
+			revel.ERROR.Println("UB nil in activation post")
+			panic("UB nil in activation post")
+		}
+
+		c.Session["user"] = UB.UserName
+		c.RenderArgs["user_basic"] = UB
 
 		return c.Redirect(routes.App.Result())
 	}
