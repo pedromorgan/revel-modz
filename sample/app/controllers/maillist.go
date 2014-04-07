@@ -1,9 +1,21 @@
 package controllers
 
 import (
+	"bufio"
+	"bytes"
+	"fmt"
+	"math/rand"
+	"os"
+	"time"
+
+	htmpl "html/template"
+	ttmpl "text/template"
+
+	"github.com/iassic/revel-modz/modules/auth"
 	"github.com/iassic/revel-modz/modules/maillist"
 	"github.com/iassic/revel-modz/modules/user"
 	"github.com/revel/revel"
+	"github.com/revel/revel/mail"
 
 	"github.com/iassic/revel-modz/sample/app/models"
 	"github.com/iassic/revel-modz/sample/app/routes"

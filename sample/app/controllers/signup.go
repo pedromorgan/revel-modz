@@ -141,13 +141,17 @@ func (c App) RegisterPost(userregister *models.UserRegister) revel.Result {
 	err = user.AddUserPhone(TestDB, uuid, "default", userregister.PhoneNumber)
 	checkERROR(err)
 
-	/**
+	//generate token
 	token := generateSecret()
 	revel.INFO.Println(token)
 
-	sendActivationEmail(userregister.Email, token)
+	now := time.Now()
+	expires := now.Add(time.Hour * 72)
 
-	**/
+	err = auth.AddUserActivationToken(TestDB, uuid, token, now, expires)
+	checkERROR(err)
+
+	sendActivationEmail(userregister.Email, token)
 
 	c.Flash.Out["heading"] = "Thanks for Joining!"
 	c.Flash.Out["message"] = "you should be receiving an email at " +
