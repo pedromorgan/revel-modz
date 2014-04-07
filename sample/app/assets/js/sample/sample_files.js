@@ -150,12 +150,31 @@ function openAddFileOption(){
 function fileOption(id){
     document.getElementById(id).click();
 }
-function deleteFile(){
+function deleteFolder(){
     
      var tree = fileview.curr_tree_selection;
-    var node = $("#tree").dynatree("getActiveNode");
-    console.log("node removed: ", node);
-    node.remove();
+     if(tree != null){
+         var node = $("#tree").dynatree("getActiveNode");
+         console.log("active node in delete",node);
+         console.log("node[0].parent.data.isFolder",node[0].parent.data.isFolder);
+         if(node == null && node[0].parent.data.isFolder == true){
+
+           node.remove()
+        }
+         node.remove();
+        else{
+            console.log("tree: ", tree);
+            console.log("node: ", node);
+        }
+    }
+    else{
+        console.log("Attempting to remove unselected folder");
+    }
+    renderFileRightPanel(node.getChildren());
+}
+function deleteFile(){
+    var tree = fileview.curr_tree_selection;
+    var node = $("#tree").dynatree("getSelectedNode");
 }
 function addDataFile(files) {
 
