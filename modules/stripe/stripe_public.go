@@ -189,3 +189,30 @@ func CancelSubscription(db *gorm.DB, uId int64) error {
 
 	return nil
 }
+
+func GetAllCustomers(db *gorm.DB) ([]Customer, error) {
+	var custs []Customer
+	err := db.Find(&custs).Error
+	if err != nil {
+		return nil, err
+	}
+	return custs, nil
+}
+
+func GetAllSubscriptions(db *gorm.DB) ([]Subscription, error) {
+	var subs []Subscription
+	err := db.Find(&subs).Error
+	if err != nil {
+		return nil, err
+	}
+	return subs, nil
+}
+
+func GetAllSubscriptionsByPlan(db *gorm.DB, plan string) ([]Subscription, error) {
+	var subs []Subscription
+	err := db.Where(&Subscription{PlanName: plan}).Find(&subs).Error
+	if err != nil {
+		return nil, err
+	}
+	return subs, nil
+}
