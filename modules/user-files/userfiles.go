@@ -155,3 +155,39 @@ func GetUserFileById(db *gorm.DB, uId, dsId int64) (ds *UserFile, err error) {
 	}
 	return
 }
+
+func GetUserFileInfoById(db *gorm.DB, uId, dsId int64) (info *UserFileInfo, err error) {
+	err = db.Where(&UserFileInfo{UserId: uId, FileId: dsId}).First(info).Error
+	if err != nil {
+		revel.TRACE.Println(err)
+		return nil, err
+	}
+	return
+}
+
+func UpdateUserFileInfo(db *gorm.DB, info *UserFileInfo) error {
+	err := db.Save(info).Error
+	if err != nil {
+		revel.TRACE.Println(err)
+		return err
+	}
+	return nil
+}
+
+func DeleteUserFileById(db *gorm.DB, uId, dsId int64) (bool, error) {
+	// delete file info
+	err := db.Where(&UserFileInfo{UserId: uId, FileId: dsId}).Delete(&UserFileInfo{}).Error
+	if err != nil {
+		revel.TRACE.Println(err)
+		return false, err
+	}
+
+	// delete file contents
+	err = db.Where(&UserFile{UserId: uId, FileId: dsId}).Delete(&UserFile{}).Error
+	if err != nil {
+		revel.TRACE.Println(err)
+		return false, err
+	}
+
+	return true, nil
+}
