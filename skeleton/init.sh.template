@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# install grunt module dependencies
+npm init
+npm install grunt
+npm install grunt-contrib-jshint grunt-contrib-uglify grunt-contrib-sass grunt-contrib-coffee grunt-contrib-less
+
+grunt
+
+# move app assets for renaming effect
 appname="{{ .AppName }}"
 
 jsfiles=(
@@ -16,12 +24,6 @@ sassfiles=(
 	user
 )
 
-# install grunt module dependencies
-npm init
-npm install grunt
-npm install grunt-contrib-jshint grunt-contrib-concat grunt-contrib-uglify grunt-contrib-coffee grunt-markdown grunt-contrib-sass grunt-contrib-less
-
-# move app assets for renaming effect
 if [ -d "app/assets/js/sample" ]; then
 	echo "Moving assets to $appname/app/assets"
 
@@ -43,7 +45,3 @@ if [ -d "app/assets/js/sample" ]; then
 		cp app/assets/sass/sample/_sample_${file}.scss app/assets/sass/${appname}/_${appname}_${file}.scss
 	done
 fi
-
-grunt
-
-# TODO  setting up the environment variables for the updated app.conf

@@ -27,6 +27,24 @@ func init() {
 		return template.HTML("")
 	}
 
+	revel.TemplateFuncs["firstof"] = func(args ...interface{}) interface{} {
+		for _, val := range args {
+			switch val.(type) {
+			case nil:
+				continue
+			case string:
+				if val.(string) == "" {
+					continue
+				}
+				return val
+			default:
+				return val
+			}
+		}
+		// if we get here, all of the args were 'null'
+		return template.HTML("")
+	}
+
 	// Filters is the default set of global filters.
 	revel.Filters = []revel.Filter{
 		revel.PanicFilter,             // Recover from panics and display an error page instead.
@@ -43,12 +61,15 @@ func init() {
 		revel.ActionInvoker,           // Invoke the action.
 	}
 
+	// setup grunt asset compilers
 	revel.OnAppStart(func() {
-		appPath := revel.BasePath
-		for _, gruntCompiler := range compilers {
-			path := filepath.Join(appPath, gruntCompiler.Path)
-			revel.INFO.Printf("Listening: %q\n", path)
-			revel.MainWatcher.Listen(gruntCompiler, path)
+		if revel.MainWatcher != nil {
+			appPath := revel.BasePath
+			for _, gruntCompiler := range compilers {
+				path := filepath.Join(appPath, gruntCompiler.Path)
+				revel.INFO.Printf("Listening: %q\n", path)
+				revel.MainWatcher.Listen(gruntCompiler, path)
+			}
 		}
 	})
 

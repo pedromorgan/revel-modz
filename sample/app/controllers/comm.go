@@ -46,8 +46,9 @@ func emailHandler(msg string, outbound chan string) {
 }
 
 func sendTestMessage() error {
-	gmail_sender := os.Getenv("GMAIL_SENDER")
-	gmail_passwd := os.Getenv("GMAIL_PASSWD")
+	mail_server := os.Getenv("MAIL_SERVER")
+	mail_sender := os.Getenv("MAIL_SENDER")
+	mail_passwd := os.Getenv("MAIL_PASSWD")
 
 	message := mail.NewTextAndHtmlMessage(
 		[]string{"demo@domain.com"},
@@ -58,15 +59,15 @@ func sendTestMessage() error {
 	// message.Cc = []string{"admin@domain.com"}
 	// message.Bcc = []string{"secret@domain.com"}
 	sender := mail.Sender{
-		From:    gmail_sender,
-		ReplyTo: gmail_sender,
+		From:    mail_sender,
+		ReplyTo: mail_sender,
 	}
 
 	mailer := mail.Mailer{
-		Server:   "smtp.gmail.com",
+		Server:   mail_server,
 		Port:     587,
-		UserName: gmail_sender,
-		Password: gmail_passwd,
+		UserName: mail_sender,
+		Password: mail_passwd,
 		// Host: "iassic.com",
 		// Auth: smtp.Auth,
 		Sender: &sender,
