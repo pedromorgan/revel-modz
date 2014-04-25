@@ -5,11 +5,12 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/revel/revel"
 
-	"github.com/iassic/revel-modz/modules/analytics"
+	// "github.com/iassic/revel-modz/modules/analytics"
 	"github.com/iassic/revel-modz/modules/auth"
+	"github.com/iassic/revel-modz/modules/forum"
 	"github.com/iassic/revel-modz/modules/maillist"
 	"github.com/iassic/revel-modz/modules/user"
-	"github.com/iassic/revel-modz/modules/user-files"
+	// "github.com/iassic/revel-modz/modules/user-files"
 )
 
 var (
@@ -89,7 +90,9 @@ func SetupDevDB() {
 	fillUserTables()
 	fillMailTables()
 
-	testUserDB()
+	forum.FillTables(TestDB)
+
+	// testUserDB()
 }
 
 func dropTables() {
@@ -98,16 +101,18 @@ func dropTables() {
 	auth.DropTables(TestDB)
 	user.DropTables(TestDB)
 	maillist.DropTables(TestDB)
+	forum.DropTables(TestDB)
 	// userfiles.DropTables(TestDB)
 }
 
 func addTables() {
 	revel.INFO.Println("AutoMigrate tables")
-	analytics.AddTables(TestDB)
+	// analytics.AddTables(TestDB)
 	auth.AddTables(TestDB)
 	user.AddTables(TestDB)
 	maillist.AddTables(TestDB)
-	userfiles.AddTables(TestDB)
+	forum.AddTables(TestDB)
+	// userfiles.AddTables(TestDB)
 }
 
 type DbFillUser struct {

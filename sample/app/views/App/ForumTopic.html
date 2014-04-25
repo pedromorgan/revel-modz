@@ -1,0 +1,100 @@
+{{set . "title" "Forum"}}
+
+{{append . "moreScripts" "/ipa/js/hogan-2.0.0.js"}}
+
+{{appendjs . "moreHead" "initForumView();"}}
+
+{{append . "moreStyles" "/ipa/js/epiceditor.min.js"}}
+{{append . "moreScripts" "/ipa/js/epiceditor.min.js"}}
+
+{{template "templates/header.html" .}}
+{{template "templates/menu.html" .}}
+
+<div class="row">
+    <div class="large-12 large-centered small-12 small-centered columns">
+        <div class="small-3 columns">
+            <a class="button" id="forum-topic-list-button" href="/forum">Topic List</a>
+        </div>
+
+        <div class="small-3 columns">
+            <!-- Change to search bar? -->
+            <input type="text" id="forum-filter-topicid" placeholder="1" />
+        </div>
+
+        <div class="small-3 columns">
+            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+            <!-- Messages update button -->
+            <a class="button" id="forum-filter-button">Update</a>
+        </div>
+
+        <div class="small-3 columns">
+            <!-- Open a text area to post a reply -->
+            <a class="button" id="forum-reply-button">Reply</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 large-centered columns">
+        <div class="panel">
+            <div class="row">
+                {{with .detail.Brief}}
+                <div class="large-3 small-3 columns">
+                    <b id="forum-topicId">{{.TopicId}}</b>
+                </div>
+                <div class="large-3 small-3 columns">
+                    <b>{{.TopicName}}</b>
+                </div>
+                <div class="large-3 small-3 columns">
+                    <b>{{.OpenedBy}}</b>
+                </div>
+                <div class="large-3 small-3 columns">
+                    <b>{{.OpenedAt}}</b>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="forum-topiclist-results">
+    {{range .detail.Messages}}
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div class="panel">
+                <div class="row">
+                    <div class="large-4 small-4 columns">
+                        {{.MessageId}}
+                    </div>
+                    <div class="large-4 small-4 columns">
+                        {{.MessageTime}}
+                    </div>
+                    <div class="large-4 small-4 columns">
+                        {{.MessageAuth}}
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="large-12 small-12 columns">
+                        {{.MessageBody}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{end}}
+
+</div>
+
+
+<div class="row">
+    <div class="large-12 large-centered columns">
+        <div id="forum-topic-new-message"> 
+           
+    </div>
+</div>
+
+{{template "templates/footer.html" .}}
