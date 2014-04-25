@@ -7,12 +7,20 @@ module:testrunner
 GET     /                                       App.Index
 GET     /result                                 App.Result
 
+GET    /activate/:token 						App.ActivatePost
+
 GET     /signup	                                App.Signup
 POST    /signup	                                App.SignupPost
 GET     /maillist 								App.Maillist
 POST    /maillist	                            App.MaillistPost
 GET		/register								App.Register
 POST	/register								App.RegisterPost
+
+GET		/forum									App.Forum
+GET     /forum/:topic_id						App.ForumTopic
+GET		/forum/:topic_id/:msg_id				App.ForumMessage
+POST 	/forum/topic 							User.ForumTopicPost
+POST 	/forum/message							User.ForumMessagePost
 
 GET		/login									App.Login
 POST    /login 									App.LoginPost
@@ -27,9 +35,8 @@ GET     /u/files 								User.FilesView
 GET     /a/                                     Admin.Index
 GET     /a/maillist                             Admin.MaillistView
 GET     /a/maillistcompose               		Admin.MaillistCompose
-POST    /a/maillistcompose               		Admin.MaillistComposePost
+POST    /a/maillist/savedraft               	Admin.MaillistSaveDraftPost
 POST    /a/maillist/filter                     	Admin.MaillistFilter
-
 
 # analytics stuff
 POST    /a/analytics 	                        App.RecordPageEvent
@@ -41,6 +48,10 @@ WS 		/comm									User.Comm
 GET     /files/query							Files.FilesQuery
 POST    /files/upload                           Files.FileUpload
 POST    /files/content							Files.FileContent
+
+#stripe stuff
+POST   /charge/:plan 							User.StripePost
+
 
 
 

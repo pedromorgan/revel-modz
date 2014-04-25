@@ -24,7 +24,7 @@ type MaillistMessage struct {
 }
 
 func saveDraftMessage(db *gorm.DB, msg *MaillistMessage) error {
-	return db.Save(msg).Error
+	return db.Debug().Save(msg).Error
 }
 
 func getDraftMessage(db *gorm.DB, subject string) (*MaillistMessage, error) {

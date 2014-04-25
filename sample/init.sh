@@ -7,4 +7,4 @@ npm install grunt-contrib-jshint grunt-contrib-uglify grunt-contrib-sass
 
 grunt
 
-# the asset move has been excluded here as it has been theoretically done already
+# the init.sh.template file move has been excluded here as it has been theoretically done already

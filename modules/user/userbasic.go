@@ -15,6 +15,7 @@ type UserBasic struct {
 
 	UserId   int64  `sql:"not null;unique"`
 	UserName string `sql:"not null;unique"`
+	Email 	string
 }
 
 func addUserBasic(db *gorm.DB, u *UserBasic) error {

@@ -27,6 +27,24 @@ func init() {
 		return template.HTML("")
 	}
 
+	revel.TemplateFuncs["firstof"] = func(args ...interface{}) interface{} {
+		for _, val := range args {
+			switch val.(type) {
+			case nil:
+				continue
+			case string:
+				if val.(string) == "" {
+					continue
+				}
+				return val
+			default:
+				return val
+			}
+		}
+		// if we get here, all of the args were 'null'
+		return template.HTML("")
+	}
+
 	// Filters is the default set of global filters.
 	revel.Filters = []revel.Filter{
 		revel.PanicFilter,             // Recover from panics and display an error page instead.
@@ -86,13 +104,13 @@ var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 }
 
 var compilers = []*grunt.GruntCompiler{
-	grunt.NewCompiler("Gruntfile.js", "Gruntfile.js", "default"),
+	// grunt.NewCompiler("Gruntfile.js", "Gruntfile.js", "default"),
 
-	grunt.NewCompiler("Foundation JS", "app/assets/js/foundation", "uglify:foundation_js"),
-	grunt.NewCompiler("Foundation SASS", "app/assets/sass/foundation", "sass:foundation_css"),
-	grunt.NewCompiler("Foundation SASS", "app/assets/sass/foundation_custom.scss", "sass:foundation_css"),
+	// grunt.NewCompiler("Foundation JS", "app/assets/js/foundation", "uglify:foundation_js"),
+	// grunt.NewCompiler("Foundation SASS", "app/assets/sass/foundation", "sass:foundation_css"),
+	// grunt.NewCompiler("Foundation SASS", "app/assets/sass/foundation_custom.scss", "sass:foundation_css"),
 
 	grunt.NewCompiler("sample JS", "app/assets/js/sample", "uglify:sample_js"),
-	grunt.NewCompiler("sample SASS", "app/assets/sass/sample", "sass:sample_css"),
-	grunt.NewCompiler("sample SASS", "app/assets/sass/sample.scss", "sass:sample_css"),
+	// grunt.NewCompiler("sample SASS", "app/assets/sass/sample", "sass:sample_css"),
+	// grunt.NewCompiler("sample SASS", "app/assets/sass/sample.scss", "sass:sample_css"),
 }

@@ -7,11 +7,30 @@ import (
 )
 
 func AddTables(db *gorm.DB) error {
-	return db.AutoMigrate(MaillistUser{}).Error
+	var err error
+	err = db.AutoMigrate(MaillistUser{}).Error
+	if err != nil {
+		return err
+	}
+	err = db.AutoMigrate(MaillistMessage{}).Error
+	if err != nil {
+		return err
+	}
+	return nil
+
 }
 
 func DropTables(db *gorm.DB) error {
-	return db.DropTable(MaillistUser{}).Error
+	var err error
+	err = db.DropTable(MaillistUser{}).Error
+	if err != nil {
+		return err
+	}
+	err = db.DropTable(MaillistMessage{}).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func FillTables(db *gorm.DB) error {

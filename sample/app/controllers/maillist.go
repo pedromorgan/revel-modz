@@ -1,9 +1,21 @@
 package controllers
 
 import (
+	// // "bufio"
+	// // "bytes"
+	// // "fmt"
+	// // "math/rand"
+	// // "os"
+	// // "time"
+
+	// htmpl "html/template"
+	// ttmpl "text/template"
+
+	// "github.com/iassic/revel-modz/modules/auth"
 	"github.com/iassic/revel-modz/modules/maillist"
 	"github.com/iassic/revel-modz/modules/user"
 	"github.com/revel/revel"
+	// "github.com/revel/revel/mail"
 
 	"github.com/iassic/revel-modz/sample/app/models"
 	"github.com/iassic/revel-modz/sample/app/routes"
@@ -88,7 +100,20 @@ func (c Admin) MaillistCompose() revel.Result {
 }
 
 func (c Admin) MaillistComposePost() revel.Result {
-	return nil
+	return c.Render()
+}
+
+func (c Admin) MaillistSaveDraftPost(list, subject, textbody, htmlbody string) revel.Result {
+	u := c.userConnected()
+	author := u.UserName
+	revel.INFO.Println(author)
+	revel.INFO.Println(list)
+	revel.INFO.Println(subject)
+	revel.INFO.Println(textbody)
+	revel.INFO.Println(htmlbody)
+	maillist.SaveDraft(c.Txn, author, list, subject, textbody, htmlbody)
+
+	return c.RenderText("saved draft")
 }
 
 // helper functions

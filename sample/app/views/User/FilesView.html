@@ -1,35 +1,43 @@
-{{set . "title" "Files"}}
 
-{{append . "moreScripts" "/public/js/ws_comm/ws_comm.js"}}
-{{appendjs . "moreHead" "initComm();"}}
+{{set . "title" "Files"}} {{append . "moreScripts" "/public/js/ws_comm/ws_comm.js"}} {{appendjs . "moreHead" "initComm();"}} {{append . "moreStyles" "/ipa/css/jquery-ui.min.css"}} {{append . "moreStyles" "/ipa/css/skin/ui.dynatree.css"}} {{append . "moreScripts" "/ipa/js/jquery-ui.min.js"}} {{append . "moreScripts" "/ipa/js/jquery.dynatree.min.js"}} {{append . "moreScripts" "/ipa/js/hogan-2.0.0.js"}} {{appendjs . "moreHead" "init_dynatree();"}} {{template "templates/header.html" .}} {{template "templates/menu.html" .}}
 
-{{append . "moreStyles" "/ipa/css/jquery-ui.min.css"}}
-{{append . "moreStyles" "/ipa/css/skin/ui.dynatree.css"}}
-
-{{append . "moreScripts" "/ipa/js/jquery-ui.min.js"}}
-{{append . "moreScripts" "/ipa/js/jquery.dynatree.min.js"}}
-
-{{append . "moreScripts" "/ipa/js/hogan-2.0.0.js"}}
-
-{{appendjs . "moreHead" "init_dynatree();"}}
-
-{{template "templates/header.html" .}}
-{{template "templates/menu.html" .}}
 
 <div class="row">
 
     <div class="medium-4 columns" id="data-tab-left">
         <div class="iPanel" id="data-panel">
             <b>Data Files</b>
-            <form action="/dataupload" enctype="multipart/form-data" method="POST">
-                <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
-                <input type="file" name="filedata" id="filedata" style="display:none" webkitdirectory onchange="uploadDataFiles(this.files);">
-                <input type="submit" id="submit-file" style="display:none">
-                <div class="progress" id="progress-bar" style="display:none">
-                    <span class="meter" id="upload-progress"></span>
-                </div>
-                <a class="button tiny" id="upload-btn" onclick="openFileOption();return;">Upload</a>
-            </form>
+            <div class="progress" id="progress-bar" style="display:none">
+                <span class="meter" id="upload-progress"></span>
+            </div>
+            <ul class="button-group">
+                <li>
+                    <form action="/dataupload" enctype="multipart/form-data" method="POST">
+                        <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+                        <input type="file" name="filedata" id="filedata" style="display:none" webkitdirectory onchange="uploadDataFiles(this.files);">
+                        <input type="submit" id="submit-file" style="display:none">
+
+                        <a class="button tiny" id="upload-btn" onclick="openFileOption();return;">Upload</a>
+                    </form>
+                </li>
+                <li>
+                    <form action="/dataupload" enctype="multipart/form-data" method="POST">
+                        <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+                        <input type="file" name="addfiledata" id="addfiledata" style="display:none" webkitdirectory onchange="addDataFile(this.files);">
+                        <input type="submit" id="submit-file" style="display:none">
+
+                        <a class="tiny button success" id="add-btn" onclick="openAddFileOption();return;">Add File</a>
+                    </form>
+                </li>
+                <li>
+                    <form enctype="multipart/form-data" method="POST">
+                        <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+                        <input type="submit" id="submit-file" style="display:none">
+
+                        <a class="tiny button alert" id="remove-btn" onclick="deleteFolder();return;">Remove File</a>
+                    </form>
+                </li>
+            </ul>
             <div id="user-filelist">
                 <div id="tree" style="height: 400px"></div>
             </div>
@@ -40,7 +48,8 @@
     <div class="medium-8 columns" id="data-tab-right">
         <div class="iPanel" id="file-panel">
             <b> File Panel </b>
-            <div class="row">
+           <!-- <div class="row">
+
                 <div class="large-1 small-2 columns">
                     Icon
                 </div>
@@ -49,7 +58,32 @@
                 </div>
                 <div class="large-2 small-2 columns">
                     Owner
+-->
+                <div class="large-12 large-centered small-12 small-centered columns">
+                    <div id="user-fileview" class="panel">
+
+                        <div class="row">
+                            <div class="large-1 small-1 columns">
+                                Folder
+                            </div>
+                            <div class="large-3 small-3 columns">
+                                File Name
+                            </div>
+                            <div class="large-3 small-3 columns">
+                                Owner
+                            </div>
+
+
+                            <div class="large-5 small-5 columns">
+                                Status
+                            </div>
+                        </div>
+
+
+                    </div>
+
                 </div>
+                <!--
                 <div class="large-5 small-4 columns">
                     Operations
                 </div>
@@ -57,7 +91,7 @@
 
             <div id="fileview-results">
             </div>
-
+            -->
         </div>
     </div>
 

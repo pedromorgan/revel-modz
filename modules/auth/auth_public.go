@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"time"
 
 	"code.google.com/p/go.crypto/bcrypt"
 	"github.com/jinzhu/gorm"
@@ -14,11 +15,7 @@ func AddUser(db *gorm.DB, uId int64, password string) error {
 	}
 
 	// TODO: send activation email and add activation record
-	err = addActivationRecord(db, uId)
-	if err != nil {
-		return err
-	}
-
+	//doing this in signup.go
 	return nil
 }
 
@@ -60,6 +57,58 @@ func UpdatePassword(db *gorm.DB, uId int64, new_password string) error {
 	}
 }
 
-func ActivateUser(db *gorm.DB, uId int64, token string) error {
-	return errors.New("Activate function not implemented")
+func AddUserActivationToken(db *gorm.DB, uId int64, token string, sentAt, expires time.Time) error {
+	act := UserAuthActivate{
+		UserId:      uId,
+		Token:       token,
+		EmailSentAt: sentAt,
+		ExpiresAt:   expires,
+	}
+
+	err := db.Save(&act).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//returns success, user id, and error
+func CheckUserActivationToken(db *gorm.DB, token string, now time.Time) (bool, int64, error) {
+	var act UserAuthActivate
+	err := db.Where(&UserAuthActivate{Token: token}).First(&act).Error
+	if err == gorm.RecordNotFound {
+		// fail
+		return false, 0, errors.New("Activation failed")
+	}
+	if err != nil {
+		return false, 0, err
+	}
+
+	if now.After(act.ExpiresAt) {
+		// fail
+		return false, 0, errors.New("Activation timed out")
+	}
+
+	// success
+	// remove activate token
+	err = db.Delete(&act).Error
+	if err != nil {
+		return false, 0, err
+	}
+
+	// get user auth data
+	var u UserAuth
+	err = db.Where(&UserAuth{UserId: act.UserId}).First(&u).Error
+	if err != nil {
+		return false, 0, err
+	}
+	// set activated to true
+	u.Activated = true
+	// update the user auth data
+	err = db.Save(&u).Error
+	if err != nil {
+		return false, 0, err
+	}
+
+	return true, act.UserId, nil
 }
