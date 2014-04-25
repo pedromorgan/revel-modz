@@ -5,12 +5,13 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/revel/revel"
 
-	"github.com/iassic/revel-modz/modules/analytics"
+	// "github.com/iassic/revel-modz/modules/analytics"
 	"github.com/iassic/revel-modz/modules/auth"
+	"github.com/iassic/revel-modz/modules/forum"
 	"github.com/iassic/revel-modz/modules/maillist"
 	"github.com/iassic/revel-modz/modules/stripe"
 	"github.com/iassic/revel-modz/modules/user"
-	"github.com/iassic/revel-modz/modules/user-files"
+	// "github.com/iassic/revel-modz/modules/user-files"
 )
 
 var (
@@ -88,10 +89,11 @@ func SetupDevDB() {
 	addTables()
 
 	user.FillTables(TestDB)
+	forum.FillTables(TestDB)
 	stripe.TestTables(TestDB)
 	// fillMailTables()
-
 	// testUserDB()
+
 }
 
 func dropTables() {
@@ -100,16 +102,18 @@ func dropTables() {
 	auth.DropTables(TestDB)
 	user.DropTables(TestDB)
 	maillist.DropTables(TestDB)
+	forum.DropTables(TestDB)
 	stripe.DropTables(TestDB)
 	// userfiles.DropTables(TestDB)
 }
 
 func addTables() {
 	revel.INFO.Println("AutoMigrate tables")
-	analytics.AddTables(TestDB)
-	auth.AddTables(TestDB)
+	// analytics.AddTables(TestDB)
 	user.AddTables(TestDB)
-	maillist.AddTables(TestDB)
+	auth.AddTables(TestDB)
+	forum.AddTables(TestDB)
 	userfiles.AddTables(TestDB)
 	stripe.AddTables(TestDB)
+	maillist.AddTables(TestDB)
 }

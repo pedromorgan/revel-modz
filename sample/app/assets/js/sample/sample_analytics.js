@@ -71,7 +71,7 @@ function handle_filter_button_click(e) {
 }
 
 function update_results_table(results) {
-    if results == null || results.length < 1 {
+    if (results == null || results.length < 1) {
         return
     }
     // clear the current table results

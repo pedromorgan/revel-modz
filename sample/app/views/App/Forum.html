@@ -1,0 +1,75 @@
+{{set . "title" "Forum"}}
+
+{{append . "moreScripts" "/ipa/js/hogan-2.0.0.js"}}
+
+{{appendjs . "moreHead" "initForumView();"}}
+
+{{append . "moreStyles" "/ipa/js/epiceditor.min.js"}}
+{{append . "moreScripts" "/ipa/js/epiceditor.min.js"}}
+
+{{template "templates/header.html" .}}
+{{template "templates/menu.html" .}}
+
+<div class="row">
+    <div class="large-12 large-centered small-12 small-centered columns">
+        <div class="small-4 columns">
+            <!-- Button to create a new topic -->
+        	<a class="button" id="forum-new-topic-button">New Topic</a>
+        </div>
+
+        <div class="small-4 columns">
+            <!-- Change to search bar? -->
+            <input type="text" id="forum-filter-topicid" placeholder="1" />
+        </div>
+
+        <div class="small-4 columns">
+            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ .csrf_token }}" />
+            <!-- Topics update button -->
+            <a class="button" id="forum-filter-button">Update</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 large-centered columns">
+        <h5>Forum</h5>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Topic ID</th>
+                        <th>Topic Name</th>
+                        <th>Tags</th>
+                        <th>Opened By</th>
+                        <th>Opened At</th>
+                    </tr>
+                </thead>
+
+                {{range .topics}}
+                <tbody>
+                    <tr>
+                        <th>{{.TopicId}}</th>
+                        <th>
+                            <a href="/forum/{{.TopicId}}">{{.TopicName}}</a>
+                        </th>
+                        <th>{{.TopicTags}}</th>
+                        <th>{{.OpenedBy}}</th>
+                        <th>{{.OpenedAt}}</th>
+                    </tr>
+                </tbody>
+                {{end}}
+            </table>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 large-centered columns">
+        <div id="forum-topiclist-new-topic">
+
+        </div>
+    </div>
+</div>
+
+{{template "templates/footer.html" .}}
