@@ -71,7 +71,7 @@ func InitDB() {
 	checkPANIC(err)
 
 	ndb.SetLogger(gorm.Logger{revel.INFO})
-	// ndb.LogMode(true)
+	ndb.LogMode(true)
 
 	TestDB = &ndb
 
