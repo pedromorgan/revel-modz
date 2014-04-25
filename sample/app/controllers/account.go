@@ -3,6 +3,8 @@ package controllers
 import (
 	"os"
 	// "github.com/iassic/revel-modz/modules/user"
+	"github.com/iassic/revel-modz/modules/user"
+	"github.com/iassic/revel-modz/sample/app/models"
 	"github.com/revel/revel"
 )
 
@@ -10,20 +12,42 @@ func (c User) Account() revel.Result {
 
 	publick := os.Getenv("STRIPE_TEST_PUB")
 	privatek := os.Getenv("STRIPE_API_KEY")
-    revel.WARN.Println(publick)
-    revel.WARN.Println(privatek)
+	revel.WARN.Println(publick)
+	revel.WARN.Println(privatek)
 
-	// u := c.userConnected()
+	u := c.userConnected()
+	UA, err := user.GetUserAddressesById(c.Txn, u.UserId)
+	checkERROR(err)
+	UD, err := user.GetUserDetailById(c.Txn, u.UserId)
+	checkERROR(err)
+	UP, err := user.GetUserPhonesById(c.Txn, u.UserId)
+	checkERROR(err)
 
-	// // get stuff from DB
-	// userbasic := getU
+	ur := &models.UserRegister{
+		Username: u.Email,
+		Email:    u.Email,
+	}
 
-	// // create & file in UserRegister struct
-	// userregister := &UserRegister {
-	// 	...
-	// }
+	if UD != nil {
+		ur.Fname = UD.FirstName
+		ur.MidInit = UD.Middle
+		ur.Lname = UD.LastName
+		ur.Dob = UD.Dob
+		ur.Sex = UD.Sex
+	}
 
-	// c.RenderArgs["userregister"] = userregister
+	if UA != nil && len(UA) > 0 {
+		ur.Address1 = UA[0].AddressLine1
+		ur.Address2 = UA[0].AddressLine2
+		ur.City = UA[0].City
+		ur.State = UA[0].State
+		ur.Zipcode = UA[0].Zip
+		ur.Country = UA[0].Country
+	}
+	if UP != nil && len(UP) > 0 {
+		ur.PhoneNumber = UP[0].PhoneNumber
+	}
+	c.RenderArgs["ur"] = ur
 
 	return c.Render(publick)
 }

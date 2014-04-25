@@ -27,6 +27,24 @@ func init() {
 		return template.HTML("")
 	}
 
+	revel.TemplateFuncs["firstof"] = func(args ...interface{}) interface{} {
+		for _, val := range args {
+			switch val.(type) {
+			case nil:
+				continue
+			case string:
+				if val.(string) == "" {
+					continue
+				}
+				return val
+			default:
+				return val
+			}
+		}
+		// if we get here, all of the args were 'null'
+		return template.HTML("")
+	}
+
 	// Filters is the default set of global filters.
 	revel.Filters = []revel.Filter{
 		revel.PanicFilter,             // Recover from panics and display an error page instead.
