@@ -7,6 +7,8 @@ module:testrunner
 GET     /                                       App.Index
 GET     /result                                 App.Result
 
+GET    /activate/:token 						App.ActivatePost
+
 GET     /signup	                                App.Signup
 POST    /signup	                                App.SignupPost
 GET     /maillist 								App.Maillist
@@ -33,7 +35,7 @@ GET     /u/files 								User.FilesView
 GET     /a/                                     Admin.Index
 GET     /a/maillist                             Admin.MaillistView
 GET     /a/maillistcompose               		Admin.MaillistCompose
-POST    /a/maillistcompose               		Admin.MaillistComposePost
+POST    /a/maillist/savedraft               	Admin.MaillistSaveDraftPost
 POST    /a/maillist/filter                     	Admin.MaillistFilter
 
 # analytics stuff
