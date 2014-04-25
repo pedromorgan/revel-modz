@@ -50,7 +50,7 @@ sudo apt-get install nodejs npm ruby
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo gem install sass
 sudo npm install -g grunt-cli
-sudo npm install -g grunt-contrib-jshint grunt-contrib-concat grunt-contrib-uglify grunt-contrib-coffee grunt-markdown grunt-contrib-sass grunt-contrib-less highlight.js
+sudo npm install -g grunt-contrib-jshint grunt-contrib-uglify grunt-contrib-coffee grunt-contrib-sass grunt-contrib-less
 ```
 
 Sometimes node screws up and makes root own the `.npm` director. Use this to fix it
