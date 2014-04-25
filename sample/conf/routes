@@ -13,6 +13,7 @@ GET     /maillist 								App.Maillist
 POST    /maillist	                            App.MaillistPost
 GET		/register								App.Register
 POST	/register								App.RegisterPost
+GET		/forums									App.Forums
 
 GET		/login									App.Login
 POST    /login 									App.LoginPost
