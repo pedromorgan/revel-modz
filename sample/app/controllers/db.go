@@ -11,7 +11,7 @@ import (
 	"github.com/iassic/revel-modz/modules/maillist"
 	"github.com/iassic/revel-modz/modules/stripe"
 	"github.com/iassic/revel-modz/modules/user"
-	// "github.com/iassic/revel-modz/modules/user-files"
+	"github.com/iassic/revel-modz/modules/user-files"
 )
 
 var (
