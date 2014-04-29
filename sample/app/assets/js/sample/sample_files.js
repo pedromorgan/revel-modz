@@ -1,5 +1,4 @@
-
-var fileview = fileview || {};//create new empty obj, 
+var fileview = fileview || {}; //create new empty obj, 
 /*fileview.curr_tree_selection = ..., 
 fileview_current_base_dir = getroot
 init key_str to fileview.curr_tree_selection*/
@@ -36,7 +35,7 @@ function init_dynatree() {
             node.toggleSelect();
         },
         onKeydown: function(node, event) {
-            if (event.which == 32) {
+            if (event.which === 32) {
                 node.toggleSelect();
                 return false;
             }
@@ -70,8 +69,8 @@ function init_dynatree() {
                 console.log(childNodes);
 
                 //console.log(childNodes);
-                console.log("node: ",node);
-                console.log("Path of selected node: ",node.data.key);
+                console.log("node: ", node);
+                console.log("Path of selected node: ", node.data.key);
                 fileview.curr_tree_selection = node.tree
                 fileview.curr_path = node.data.key;
 
@@ -144,42 +143,44 @@ function displayFileContents(node) {
 function openFileOption() {
     document.getElementById("filedata").click();
 }
-function openAddFileOption(){
+
+function openAddFileOption() {
     document.getElementById("addfiledata").click();
 }
-function fileOption(id){
+
+function fileOption(id) {
     document.getElementById(id).click();
 }
-function deleteFolder(){
-    
-     var tree = fileview.curr_tree_selection;
-     if(tree != null){
-         var node = $("#tree").dynatree("getActiveNode");
-         console.log("active node in delete",node);
-         console.log("node[0].parent.data.isFolder",node[0].parent.data.isFolder);
-         if(node == null && node[0].parent.data.isFolder == true){
 
-           node.remove()
+function deleteFolder() {
+
+    var tree = fileview.curr_tree_selection;
+    if (tree != null) {
+        var node = $("#tree").dynatree("getActiveNode");
+        console.log("active node in delete", node);
+        console.log("node[0].parent.data.isFolder", node[0].parent.data.isFolder);
+        if (node == null && node[0].parent.data.isFolder == true) {
+        node.remove();
         }
-         node.remove();
-        else{
+        else {
             console.log("tree: ", tree);
             console.log("node: ", node);
         }
-    }
-    else{
+    } else {
         console.log("Attempting to remove unselected folder");
     }
     renderFileRightPanel(node.getChildren());
 }
-function deleteFile(){
+
+function deleteFile() {
     var tree = fileview.curr_tree_selection;
     var node = $("#tree").dynatree("getSelectedNode");
 }
+
 function addDataFile(files) {
 
     // var files = document.getElementById('filedata').files;
-    console.log("in addDataFile, files: ",files);
+    console.log("in addDataFile, files: ", files);
     var up_files = [];
     $("#progress-bar").css("display", "block");
 
@@ -243,9 +244,9 @@ function addDataFile(files) {
 
         //var key_str = "";
         var key_str = fileview.curr_path;
-        
-       // var last = $("#tree").dynatree("getRoot");
-       var last = $("#tree").dynatree("getActiveNode");
+
+        // var last = $("#tree").dynatree("getRoot");
+        var last = $("#tree").dynatree("getActiveNode");
 
         //var last = fileview.curr_tree_selection;
         console.log("last: ", last);
@@ -302,7 +303,7 @@ function addDataFile(files) {
         }
     }
     //$("#tree").dynatree("getRoot").sortChildren(file_cmp, true);
-    fileview.current_base_dir.sortChildren(file_cmp,true);
+    fileview.current_base_dir.sortChildren(file_cmp, true);
     // console.log(up_files);
     // worker.postMessage(up_files);
 }
@@ -347,7 +348,7 @@ function uploadDataFiles(files) {
             return
         }
         console.log('Worker said: ', e.data, "   rsz", runng_sz);
-       // console.log("line 291 console test");
+        // console.log("line 291 console test");
         meter.width((100.0 * runng_sz / total_sz) + "%")
     }
     worker.onerror = werror;
@@ -364,7 +365,7 @@ function uploadDataFiles(files) {
         var file = files[i];
         lfn = file.webkitRelativePath;
         lfn_parts = lfn.split("/");
-        
+
         if (lfn[lfn.length - 1] == ".") {
             continue;
         }
@@ -510,7 +511,7 @@ function getStoredFileContents(node) {
 function renderFileRightPanel(fileNodes) {
 
 
-   /* // clear any existing files in the DOM list
+    /* // clear any existing files in the DOM list
     $("#fileview-results").empty();
 
     // return if no fileNodes
@@ -561,7 +562,7 @@ function renderFileRightPanel(fileNodes) {
     '         </div>',
 ].join("\n");
 */
-    var file_list_header = '<div class="row">
+var file_list_header = '<div class="row">
                 <div class="large-12 large-centered small-12 small-centered columns">
                     <div id="user-fileview" class="panel">
 
@@ -588,7 +589,7 @@ function renderFileRightPanel(fileNodes) {
             </div>';
 
 
-    
+
 
 
 var file_row_template_text = [
